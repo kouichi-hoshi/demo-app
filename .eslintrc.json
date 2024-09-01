@@ -3,7 +3,6 @@
     "prettier",
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
-    "plugin:storybook/recommended",
     "plugin:tailwindcss/recommended",
     "prettier"
   ],
@@ -13,6 +12,13 @@
     "tailwindcss"
   ],
   "rules": {
-    "tailwindcss/classnames-order": "warn"  // or "error"
+    "tailwindcss/classnames-order": "warn",
+    "tailwindcss/no-custom-classname": [
+      "error",
+      {
+        "whitelist": ["button"],
+        "cssModules": true
+      }
+    ]
   }
 }

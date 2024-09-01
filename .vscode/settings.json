@@ -1,26 +1,13 @@
 {
+  "eslint.useESLintClass": true,
   "editor.formatOnSave": true,
   "prettier.insertPragma": false,
   "cSpell.words": [
-    "esbenp",
-    "eyecatch",
-    "FESTA",
-    "gtag",
-    "Kaku",
     "microcms",
-    "nextjs",
-    "Nuxt",
-    "Parens",
-    "slnt",
-    "splide",
-    "splidejs",
-    "stylelint",
-    "tayori",
-    "webp"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
-    "source.fixAll.stylelint": "explicit"
+    "source.fixAll.stylelint": "explicit",
   },
   "stylelint.enable": true,
   "stylelint.validate": ["css", "scss"]
