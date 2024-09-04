@@ -17,6 +17,11 @@ export default function FirebaseLogIn() {
       return
     }
 
+    // ログイン時にアカウント選択ダイアログを表示する
+    provider.setCustomParameters({
+      prompt: 'select_account',
+    })
+
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
