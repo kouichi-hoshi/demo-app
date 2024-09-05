@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <FirebaseWrapProvider>
           <Header />
-          <main className='container m-2 mx-auto border-2 p-2'>{children}</main>
+          <main>{children}</main>
         </FirebaseWrapProvider>
       </body>
     </html>
