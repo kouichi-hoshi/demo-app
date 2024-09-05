@@ -1,10 +1,11 @@
 import LoginStatus from '@/_components/LoginStatus'
+import PageHeader from '@/_components/PageHeader'
 
 export default function Home() {
   return (
     <article className='baseContainer'>
       <section>
-        <h1 className='mb-4'>Home / main</h1>
+        <PageHeader title={'Home'} />
         <button className='button'>demo button</button>
         <LoginStatus />
       </section>
