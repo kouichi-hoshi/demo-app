@@ -72,20 +72,20 @@ export default function FirebaseLogIn() {
     <>
       {/* TODO: ユーザー情報（'currentUser'、'displayName'、'photoURL'）のスタブを作ってテストする */}
       {currentUser ? (
-        <div className='flex flex-col items-center gap-4'>
+        <div className='flex items-center gap-4'>
+          {currentUser?.displayName && <p>{currentUser?.displayName}</p>}
           {currentUser?.photoURL && (
             <p>
               <Image
                 src={currentUser.photoURL}
                 alt={currentUser?.displayName || ''}
                 className='rounded-full'
-                width='96'
-                height='96'
+                width='32'
+                height='32'
               />
             </p>
           )}
-          {currentUser?.displayName && <p>{currentUser?.displayName}</p>}
-          <Button className='w-28' onClick={signOut} text={'ログアウト'} />
+          <Button className='button' onClick={signOut} text={'ログアウト'} />
         </div>
       ) : (
         <button className='button flex items-center gap-2' onClick={signIn}>
