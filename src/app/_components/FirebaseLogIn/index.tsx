@@ -1,15 +1,14 @@
 import { useContext } from 'react'
 import Image from 'next/image'
 import { FirebaseContext } from '@/_provider/FirebaseProvider'
-import { useAuthStateListener } from '@/_provider/FirebaseProvider'
-import { Auth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-
+import { useAuth } from '@/_provider/FirebaseProvider'
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import Button from '@/_components/Button'
 
 export default function FirebaseLogIn() {
-  const auth = useContext<Auth | null>(FirebaseContext)
+  const { auth } = useContext(FirebaseContext) ?? { auth: null }
   const provider = new GoogleAuthProvider()
-  const currentUser = useAuthStateListener() // ログイン状態を監視する
+  const currentUser = useAuth() // ログイン状態を監視する
 
   const signIn = () => {
     if (!auth) {

@@ -1,9 +1,9 @@
 'use client'
 
-import { useAuthStateListener } from '@/_provider/FirebaseProvider'
+import { useAuth } from '@/_provider/FirebaseProvider'
 
 export default function LoginStatus() {
-  const auth = useAuthStateListener()
+  const auth = useAuth()
 
   return (
     <dl className='my-2 flex gap-2'>
