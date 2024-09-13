@@ -5,7 +5,6 @@ import { getApps } from 'firebase/app'
 import { Auth, getAuth, User } from 'firebase/auth'
 import { initializeFirebaseApp } from '@/_lib/firebase'
 
-// authとcurrentUserを共有するためにコンテキストを拡張
 type FirebaseContextProps = {
   auth: Auth | null
   currentUser: User | null
@@ -20,12 +19,13 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within a FirebaseProvider')
   }
 
+  // TODO:currentUserが返す値のセキュリティを確認する
   return context.currentUser
 }
 
 export default function FirebaseProvider({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState<Auth | null>(null)
-  const [currentUser, setCurrentUser] = useState<User | null>(null) // currentUserを追加
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
 
   useEffect(() => {
     try {
@@ -38,14 +38,14 @@ export default function FirebaseProvider({ children }: { children: React.ReactNo
         const unsubscribe = authInstance.onAuthStateChanged((user) => {
           if (user) {
             console.log(`User is logged in: ${user.displayName}`)
-            setCurrentUser(user) // ログインしているユーザーの情報を保存
+            setCurrentUser(user)
           } else {
             console.log('User is not logged in')
-            setCurrentUser(null) // ログインしていない場合はnullに
+            setCurrentUser(null)
           }
         })
 
-        return () => unsubscribe() // クリーンアップでリスナーを解除
+        return () => unsubscribe()
       }
       console.log('Firebase has been initialized successfully.')
     } catch (error) {
@@ -59,6 +59,5 @@ export default function FirebaseProvider({ children }: { children: React.ReactNo
     }
   }, [])
 
-  // FirebaseContextでauthとcurrentUserを提供
   return <FirebaseContext.Provider value={{ auth, currentUser }}>{children}</FirebaseContext.Provider>
 }
