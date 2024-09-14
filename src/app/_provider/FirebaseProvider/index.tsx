@@ -5,27 +5,37 @@ import { getApps } from 'firebase/app'
 import { Auth, getAuth, User } from 'firebase/auth'
 import { initializeFirebaseApp } from '@/_lib/firebase'
 
+type SanitizedUser = {
+  displayName: string | null
+  photoURL: string | null
+}
+
 type FirebaseContextProps = {
   auth: Auth | null
-  currentUser: User | null
+  currentUser: SanitizedUser | null
 }
 
 export const FirebaseContext = createContext<FirebaseContextProps | null>(null)
 
 export const useAuth = () => {
   const context = useContext(FirebaseContext)
-
   if (context === null) {
     throw new Error('useAuth must be used within a FirebaseProvider')
   }
-
-  // TODO:currentUserが返す値のセキュリティを確認する
   return context.currentUser
 }
 
 export default function FirebaseProvider({ children }: { children: React.ReactNode }) {
   const [auth, setAuth] = useState<Auth | null>(null)
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [currentUser, setCurrentUser] = useState<SanitizedUser | null>(null)
+
+  const sanitizeUser = (user: User | null): SanitizedUser | null => {
+    if (!user) return null
+    return {
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    }
+  }
 
   useEffect(() => {
     try {
@@ -37,8 +47,8 @@ export default function FirebaseProvider({ children }: { children: React.ReactNo
         // 認証状態の変化を監視
         const unsubscribe = authInstance.onAuthStateChanged((user) => {
           if (user) {
+            setCurrentUser(sanitizeUser(user))
             console.log(`User is logged in: ${user.displayName}`)
-            setCurrentUser(user)
           } else {
             console.log('User is not logged in')
             setCurrentUser(null)
