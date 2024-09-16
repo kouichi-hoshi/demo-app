@@ -3,7 +3,8 @@
   "editor.formatOnSave": true,
   "prettier.insertPragma": false,
   "cSpell.words": [
-    "microcms",
+    "Firestore",
+    "microcms"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
