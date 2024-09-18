@@ -1,25 +1,31 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { db } from '@/_lib/firebase'
-import { doc, setDoc, getDoc, Firestore } from 'firebase/firestore'
+import { doc, setDoc, Firestore, onSnapshot } from 'firebase/firestore'
 
 export default function FireStoreTest() {
   const [data, setData] = useState<string>('')
   const docRef = doc(db, 'users', 'user1')
+  const isFirestoreUpdate = useRef(true) // Firestoreのデータ更新かどうかを追跡する
 
   useEffect(() => {
-    const getDb = async () => {
-      const docSnap = await getDoc(docRef)
-
+    // Firestoreのドキュメントをリアルタイムで監視する
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         console.log('Document data:', docSnap.data())
+        // Firestoreからの更新のときだけdataを更新する
+        if (isFirestoreUpdate.current) {
+          setData(docSnap.data()?.data || '')
+        }
+        isFirestoreUpdate.current = true // リスナーでの変更後はtrueに戻す
       } else {
-        // docSnap.data() will be undefined in this case
         console.log('No such document!')
       }
-    }
-    getDb()
+    })
+
+    // コンポーネントがアンマウントされた際にリスナーを解除する
+    return () => unsubscribe()
   }, [docRef])
 
   const dbFunc = async (db: Firestore): Promise<void> => {
@@ -32,6 +38,12 @@ export default function FireStoreTest() {
       console.error('Error writing document: ', error)
     }
   }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    isFirestoreUpdate.current = false // ユーザーが変更しているときはFirestoreのデータを無視
+    setData(e.target.value)
+  }
+
   return (
     <div className='my-8'>
       <h1>FireStoreTest</h1>
@@ -41,8 +53,8 @@ export default function FireStoreTest() {
           type='text'
           className='my-2 border-2 px-2'
           value={data}
-          onChange={(e) => setData(e.target.value)}
-        ></input>
+          onChange={handleChange} // onChangeでhandleChange関数を呼び出す
+        />
       </div>
       <button type='submit' className='button' onClick={() => dbFunc(db)}>
         Write
