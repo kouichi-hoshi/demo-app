@@ -13,7 +13,7 @@ export default function FireStoreTest() {
     // Firestoreのドキュメントをリアルタイムで監視する
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
-        console.log('Document data:', docSnap.data())
+        // console.log('Document data:', docSnap.data())
         // Firestoreからの更新のときだけdataを更新する
         if (isFirestoreUpdate.current) {
           setData(docSnap.data()?.data || '')
