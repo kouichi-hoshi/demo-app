@@ -8,6 +8,7 @@ import { initializeFirebaseApp } from '@/_lib/firebase'
 type SanitizedUser = {
   displayName: string | null
   photoURL: string | null
+  uid: string | null
 }
 
 type FirebaseContextProps = {
@@ -34,6 +35,7 @@ export default function FirebaseProvider({ children }: { children: React.ReactNo
     return {
       displayName: user.displayName,
       photoURL: user.photoURL,
+      uid: user.uid,
     }
   }
 
