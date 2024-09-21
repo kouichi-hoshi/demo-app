@@ -78,10 +78,10 @@ export default function FireStoreTest2() {
 
   return (
     <div className='my-8'>
-      <h1>FireStoreTest 2</h1>
-      <ul>
+      <h1 className='mb-4 text-xl'>FireStoreTest 2</h1>
+      <ul className='border-t-2'>
         {tasks.map((task) => (
-          <li key={task.id}>
+          <li key={task.id} className='border-b-2 py-2'>
             {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
           </li>
         ))}
