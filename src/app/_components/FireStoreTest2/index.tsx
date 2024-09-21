@@ -17,6 +17,9 @@ export default function FireStoreTest2() {
   const currentUser = useAuth()
   const inputRef = useRef<HTMLInputElement>(null)
 
+  /**
+   * Firestoreのデータをリアルタイムで監視する
+   */
   useEffect(() => {
     if (!currentUser || !currentUser.uid) {
       console.log('User is not authenticated or uid is missing')
@@ -39,29 +42,35 @@ export default function FireStoreTest2() {
     return () => unsubscribe()
   }, [currentUser])
 
+  /**
+   * Firestoreにタスクを追加する
+   */
   const handleAddTask = async () => {
-    if (!inputRef.current) {
+    // inputRef.current や currentUser の存在確認
+    if (!inputRef.current || !currentUser || !currentUser.uid) {
+      console.error('Input element or user authentication is missing')
       return
     }
 
-    const taskTitle = inputRef.current.value
+    const taskTitle = inputRef.current.value.trim()
 
-    if (taskTitle.trim() === '') {
-      return
-    }
-
-    // currentUser または currentUser.uid が null の場合は処理を中断
-    if (!currentUser || !currentUser.uid) {
-      console.error('User is not authenticated or uid is missing')
+    // タスクのタイトルが空かどうかをチェック
+    if (!taskTitle) {
+      console.error('Task title is empty')
       return
     }
 
     // Firestoreにデータを追加
-    await addDoc(collection(db, 'users', currentUser.uid, 'tasks'), {
-      title: taskTitle,
-      is_completed: false,
-      created_at: new Date(),
-    })
+    try {
+      await addDoc(collection(db, 'users', currentUser.uid, 'tasks'), {
+        title: taskTitle,
+        is_completed: false,
+        created_at: new Date(),
+      })
+    } catch (error) {
+      console.error('Error adding task to Firestore:', error)
+      return
+    }
 
     // 入力フィールドをクリア
     inputRef.current.value = ''
@@ -77,9 +86,11 @@ export default function FireStoreTest2() {
           </li>
         ))}
       </ul>
-      <div className='py-2'>
+      <div className='flex gap-1 py-2'>
         <input className='border-2 p-2' type='text' ref={inputRef} placeholder='新しいタスクを入力' />
-        <button onClick={handleAddTask}>追加</button>
+        <button className='button' onClick={handleAddTask}>
+          追加
+        </button>
       </div>
     </div>
   )
