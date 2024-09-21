@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { db } from '@/_lib/firebase'
-import { collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore'
+import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
 
 type TaskProps = {
@@ -77,13 +77,38 @@ export default function FireStoreTest2() {
     inputRef.current.value = ''
   }
 
+  /**
+   * タスクの完了状態を切り替える
+   */
+  const toggleTaskCompletion = async (taskId: string, isCompleted: boolean) => {
+    if (!currentUser || !currentUser.uid) {
+      console.error('User is not authenticated or uid is missing')
+      return
+    }
+
+    const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
+
+    try {
+      await updateDoc(taskDocRef, {
+        is_completed: !isCompleted, // 完了状態をトグル
+      })
+    } catch (error) {
+      console.error('Error updating task completion status:', error)
+    }
+  }
+
   return (
     <div className='my-8'>
       <h1 className='mb-4 text-xl'>FireStoreTest 2</h1>
       <ul className='border-t-2'>
         {tasks.map((task) => (
-          <li key={task.id} className='border-b-2 py-2'>
-            {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
+          <li key={task.id} className='flex items-center justify-between border-b-2 py-2'>
+            <span>
+              {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
+            </span>
+            <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
+              {task.is_completed ? '未完了に戻す' : '完了'}
+            </button>
           </li>
         ))}
       </ul>
