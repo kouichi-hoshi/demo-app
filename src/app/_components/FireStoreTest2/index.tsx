@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { db } from '@/_lib/firebase'
 import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
+import TaskItem from '@/_components/TaskItem'
 
 type TaskProps = {
   id: string
@@ -97,21 +98,34 @@ export default function FireStoreTest2() {
     }
   }
 
+  // 完了・未完了のタスクを分けて表示
+  const incompleteTasks = tasks.filter((task) => !task.is_completed)
+  const completedTasks = tasks.filter((task) => task.is_completed)
+
   return (
     <div className='my-8'>
-      <h1 className='mb-4 text-xl'>FireStoreTest 2</h1>
-      <ul className='border-t-2'>
-        {tasks.map((task) => (
-          <li key={task.id} className='flex items-center justify-between border-b-2 py-2'>
-            <span>
-              {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
-            </span>
-            <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
-              {task.is_completed ? '未完了に戻す' : '完了'}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <h1 className='my-4 text-xl'>FireStoreTest 2</h1>
+
+      {/* 未完了のタスク */}
+      <section className='my-8'>
+        <h2 className='mb-2 text-lg'>未完了のタスク</h2>
+        <ul className='border-t-2'>
+          {incompleteTasks.map((task) => (
+            <TaskItem key={task.id} task={task} toggleTaskCompletion={toggleTaskCompletion} />
+          ))}
+        </ul>
+      </section>
+
+      {/* 完了済みのタスク */}
+      <section className='my-8'>
+        <h2 className='mb-2 mt-4 text-lg'>完了済みのタスク</h2>
+        <ul className='border-t-2'>
+          {completedTasks.map((task) => (
+            <TaskItem key={task.id} task={task} toggleTaskCompletion={toggleTaskCompletion} />
+          ))}
+        </ul>
+      </section>
+
       <div className='flex gap-1 py-2'>
         <input className='border-2 p-2' type='text' ref={inputRef} placeholder='新しいタスクを入力' />
         <button className='button' onClick={handleAddTask}>
