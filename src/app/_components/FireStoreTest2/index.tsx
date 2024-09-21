@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { db } from '@/_lib/firebase'
-import { collection, addDoc, onSnapshot } from 'firebase/firestore'
+import { collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
 
 type TaskProps = {
@@ -27,9 +27,10 @@ export default function FireStoreTest2() {
     }
 
     const tasksCollectionRef = collection(db, 'users', currentUser.uid, 'tasks')
+    const q = query(tasksCollectionRef, orderBy('created_at', 'desc')) // 作成日時の降順でソート
 
     // Firestoreのコレクション全体をリアルタイムで監視する
-    const unsubscribe = onSnapshot(tasksCollectionRef, (snapshot) => {
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const tasksData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
