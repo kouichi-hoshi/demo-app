@@ -17,11 +17,11 @@ const TaskList = ({ tasks, toggleTaskCompletion, deleteTask }: TaskListProps) =>
   return (
     <ul className='border-t-2'>
       {tasks.map((task) => (
-        <li key={task.id} className='flex items-center justify-between border-b-2 py-2'>
+        <li key={task.id} className='flex items-center justify-between gap-2 border-b-2 py-2'>
           <span>
             {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
           </span>
-          <div className='flex gap-2'>
+          <div className='flex shrink-0 gap-2'>
             <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
               {task.is_completed ? '未完了に戻す' : '完了'}
             </button>
