@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { db } from '@/_lib/firebase'
 import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
-import TaskItem from '@/_components/TaskItem'
+import TaskList from '@/_components/TaskList'
 
 type TaskProps = {
   id: string
@@ -28,7 +28,7 @@ export default function FireStoreTest2() {
     }
 
     const tasksCollectionRef = collection(db, 'users', currentUser.uid, 'tasks')
-    const q = query(tasksCollectionRef, orderBy('created_at', 'desc')) // 作成日時の降順でソート
+    const q = query(tasksCollectionRef, orderBy('created_at', 'asc')) // 作成日時の昇順で取得
 
     // Firestoreのコレクション全体をリアルタイムで監視する
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -106,24 +106,9 @@ export default function FireStoreTest2() {
     <div className='my-8'>
       <h1 className='my-4 text-xl'>FireStoreTest 2</h1>
 
-      {/* 未完了のタスク */}
       <section className='my-8'>
         <h2 className='mb-2 text-lg'>未完了のタスク</h2>
-        <ul className='border-t-2'>
-          {incompleteTasks.map((task) => (
-            <TaskItem key={task.id} task={task} toggleTaskCompletion={toggleTaskCompletion} />
-          ))}
-        </ul>
-      </section>
-
-      {/* 完了済みのタスク */}
-      <section className='my-8'>
-        <h2 className='mb-2 mt-4 text-lg'>完了済みのタスク</h2>
-        <ul className='border-t-2'>
-          {completedTasks.map((task) => (
-            <TaskItem key={task.id} task={task} toggleTaskCompletion={toggleTaskCompletion} />
-          ))}
-        </ul>
+        <TaskList tasks={incompleteTasks} toggleTaskCompletion={toggleTaskCompletion} />
       </section>
 
       <div className='flex gap-1 py-2'>
@@ -132,6 +117,11 @@ export default function FireStoreTest2() {
           追加
         </button>
       </div>
+
+      <section className='my-8'>
+        <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
+        <TaskList tasks={completedTasks} toggleTaskCompletion={toggleTaskCompletion} />
+      </section>
     </div>
   )
 }
