@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { db } from '@/_lib/firebase'
-import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from 'firebase/firestore'
+import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
 import TaskList from '@/_components/TaskList'
 
@@ -98,7 +98,25 @@ export default function FireStoreTest2() {
     }
   }
 
-  // 完了・未完了のタスクを分けて表示
+  /**
+   * タスクを削除する
+   */
+  const deleteTask = async (taskId: string) => {
+    if (!currentUser || !currentUser.uid) {
+      console.error('User is not authenticated or uid is missing')
+      return
+    }
+
+    const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
+
+    try {
+      await deleteDoc(taskDocRef)
+    } catch (error) {
+      console.error('Error deleting task: ', error)
+    }
+  }
+
+  // 未完了のタスクと完了済みのタスクを分ける
   const incompleteTasks = tasks.filter((task) => !task.is_completed)
   const completedTasks = tasks.filter((task) => task.is_completed)
 
@@ -108,7 +126,7 @@ export default function FireStoreTest2() {
 
       <section className='my-8'>
         <h2 className='mb-2 text-lg'>未完了のタスク</h2>
-        <TaskList tasks={incompleteTasks} toggleTaskCompletion={toggleTaskCompletion} />
+        <TaskList tasks={incompleteTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
       </section>
 
       <div className='flex gap-1 py-2'>
@@ -120,7 +138,7 @@ export default function FireStoreTest2() {
 
       <section className='my-8'>
         <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
-        <TaskList tasks={completedTasks} toggleTaskCompletion={toggleTaskCompletion} />
+        <TaskList tasks={completedTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
       </section>
     </div>
   )

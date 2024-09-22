@@ -1,6 +1,8 @@
+import React from 'react'
+
 type TaskProps = {
   id: string
-  created_at: Date | null // nullが許容される
+  created_at: Date | null
   is_completed: boolean
   title: string
 }
@@ -8,9 +10,10 @@ type TaskProps = {
 type TaskListProps = {
   tasks: TaskProps[]
   toggleTaskCompletion: (taskId: string, isCompleted: boolean) => void
+  deleteTask: (taskId: string) => void
 }
 
-const TaskList = ({ tasks, toggleTaskCompletion }: TaskListProps) => {
+const TaskList = ({ tasks, toggleTaskCompletion, deleteTask }: TaskListProps) => {
   return (
     <ul className='border-t-2'>
       {tasks.map((task) => (
@@ -18,16 +21,18 @@ const TaskList = ({ tasks, toggleTaskCompletion }: TaskListProps) => {
           <span>
             {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
           </span>
-          <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
-            {task.is_completed ? '未完了に戻す' : '完了'}
-          </button>
+          <div>
+            <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
+              {task.is_completed ? '未完了に戻す' : '完了'}
+            </button>
+            <button className='button ml-2 bg-red-500' onClick={() => deleteTask(task.id)}>
+              削除
+            </button>
+          </div>
         </li>
       ))}
     </ul>
   )
 }
 
-// React.memo でメモ化
-export default React.memo(TaskList, (prevProps, nextProps) => {
-  return prevProps.tasks === nextProps.tasks
-})
+export default React.memo(TaskList)
