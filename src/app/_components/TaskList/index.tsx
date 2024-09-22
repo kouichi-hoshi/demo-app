@@ -21,11 +21,11 @@ const TaskList = ({ tasks, toggleTaskCompletion, deleteTask }: TaskListProps) =>
           <span>
             {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
           </span>
-          <div>
+          <div className='flex gap-2'>
             <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
               {task.is_completed ? '未完了に戻す' : '完了'}
             </button>
-            <button className='button ml-2 bg-red-500' onClick={() => deleteTask(task.id)}>
+            <button className='px-4 py-2 text-xs' onClick={() => deleteTask(task.id)}>
               削除
             </button>
           </div>
