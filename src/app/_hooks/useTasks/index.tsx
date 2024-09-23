@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { db } from '@/_lib/firebase'
 import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
@@ -39,8 +39,8 @@ export default function useTasks() {
     return () => unsubscribe()
   }, [currentUser])
 
-  // タスクを追加する関数
-  const handleAddTask = async () => {
+  // useCallbackを使って関数をメモ化
+  const handleAddTask = useCallback(async () => {
     if (!inputRef.current || !currentUser || !currentUser.uid) {
       console.error('Input element or user authentication is missing')
       return
@@ -63,41 +63,45 @@ export default function useTasks() {
     } catch (error) {
       console.error('Error adding task to Firestore:', error)
     }
-  }
+  }, [currentUser])
 
-  // タスクの完了状態を切り替える関数
-  const toggleTaskCompletion = async (taskId: string, isCompleted: boolean) => {
-    if (!currentUser || !currentUser.uid) {
-      console.error('User is not authenticated or uid is missing')
-      return
-    }
+  const toggleTaskCompletion = useCallback(
+    async (taskId: string, isCompleted: boolean) => {
+      if (!currentUser || !currentUser.uid) {
+        console.error('User is not authenticated or uid is missing')
+        return
+      }
 
-    const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
+      const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
 
-    try {
-      await updateDoc(taskDocRef, {
-        is_completed: !isCompleted,
-      })
-    } catch (error) {
-      console.error('Error updating task completion status:', error)
-    }
-  }
+      try {
+        await updateDoc(taskDocRef, {
+          is_completed: !isCompleted,
+        })
+      } catch (error) {
+        console.error('Error updating task completion status:', error)
+      }
+    },
+    [currentUser]
+  )
 
-  // タスクを削除する関数
-  const deleteTask = async (taskId: string) => {
-    if (!currentUser || !currentUser.uid) {
-      console.error('User is not authenticated or uid is missing')
-      return
-    }
+  const deleteTask = useCallback(
+    async (taskId: string) => {
+      if (!currentUser || !currentUser.uid) {
+        console.error('User is not authenticated or uid is missing')
+        return
+      }
 
-    const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
+      const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
 
-    try {
-      await deleteDoc(taskDocRef)
-    } catch (error) {
-      console.error('Error deleting task: ', error)
-    }
-  }
+      try {
+        await deleteDoc(taskDocRef)
+      } catch (error) {
+        console.error('Error deleting task: ', error)
+      }
+    },
+    [currentUser]
+  )
 
   return {
     tasks,

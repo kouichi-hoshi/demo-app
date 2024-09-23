@@ -35,4 +35,10 @@ const TaskList = ({ tasks, toggleTaskCompletion, deleteTask }: TaskListProps) =>
   )
 }
 
-export default React.memo(TaskList)
+export default React.memo(TaskList, (prevProps, nextProps) => {
+  return (
+    prevProps.tasks === nextProps.tasks &&
+    prevProps.toggleTaskCompletion === nextProps.toggleTaskCompletion &&
+    prevProps.deleteTask === nextProps.deleteTask
+  )
+})
