@@ -2,11 +2,11 @@
 
 import useTasks from '@/_hooks/useTasks'
 import TaskList from '@/_components/TaskList'
-import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core'
-import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { DndContext, closestCenter } from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export default function FireStoreTest2() {
-  const { tasks, setTasks, handleAddTask, toggleTaskCompletion, deleteTask, inputRef } = useTasks()
+  const { tasks, handleAddTask, handleDragEnd, toggleTaskCompletion, deleteTask, inputRef } = useTasks()
 
   // 未完了のタスクと完了済みのタスクを分ける
   const incompleteTasks = tasks.filter((task) => !task.is_completed)
@@ -16,17 +16,6 @@ export default function FireStoreTest2() {
   const taskIds = {
     incomplete: incompleteTasks.map((task) => task.id),
     completed: completedTasks.map((task) => task.id),
-  }
-
-  // ドラッグ＆ドロップ完了時の動作
-  const handleDragEnd = ({ active, over }: DragEndEvent) => {
-    if (over && active.id !== over.id) {
-      setTasks((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id)
-        const newIndex = items.findIndex((item) => item.id === over.id)
-        return arrayMove(items, oldIndex, newIndex)
-      })
-    }
   }
 
   return (

@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { db } from '@/_lib/firebase'
 import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
+import { DragEndEvent } from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
 
 type TaskProps = {
   id: string
@@ -10,7 +12,7 @@ type TaskProps = {
   title: string
 }
 
-// Firestoreのコレクションを監視してタスクの追加、更新、削除を行うカスタムフック
+// Firestoreのコレクションを監視してタスクの追加、更新、削除、ドラッグ＆ドロップを行う
 export default function useTasks() {
   const [tasks, setTasks] = useState<TaskProps[]>([])
   const currentUser = useAuth()
@@ -23,8 +25,11 @@ export default function useTasks() {
       return
     }
 
+    // Firestoreのコレクションを参照
     const tasksCollectionRef = collection(db, 'users', currentUser.uid, 'tasks')
-    const q = query(tasksCollectionRef, orderBy('order', 'desc'))
+
+    // タスクを order フィールドで昇順に並び替える
+    const q = query(tasksCollectionRef, orderBy('order', 'asc'))
 
     // Firestoreのコレクションを監視してタスクの追加、更新、削除を行う
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -39,6 +44,7 @@ export default function useTasks() {
     return () => unsubscribe()
   }, [currentUser])
 
+  // タスクを追加してFirestoreに保存
   const handleAddTask = useCallback(async () => {
     if (!inputRef.current || !currentUser || !currentUser.uid) {
       console.error('Input element or user authentication is missing')
@@ -66,6 +72,34 @@ export default function useTasks() {
     }
   }, [currentUser, tasks.length])
 
+  // ドラッグ＆ドロップ完了時にFirestoreを更新
+  const handleDragEnd = useCallback(
+    ({ active, over }: DragEndEvent) => {
+      if (!currentUser || !currentUser.uid) {
+        console.error('User is not authenticated or uid is missing')
+        return
+      }
+
+      if (over && active.id !== over.id) {
+        setTasks((items) => {
+          const oldIndex = items.findIndex((item) => item.id === active.id)
+          const newIndex = items.findIndex((item) => item.id === over.id)
+          const updatedTasks = arrayMove(items, oldIndex, newIndex)
+
+          // Firestoreの order フィールドを更新
+          updatedTasks.forEach((task, index) => {
+            const taskDocRef = doc(db, 'users', currentUser.uid!, 'tasks', task.id) // uid!でnullチェックを回避
+            updateDoc(taskDocRef, { order: index + 1 })
+          })
+
+          return updatedTasks
+        })
+      }
+    },
+    [currentUser]
+  )
+
+  // タスクの完了状態を切り替えてFirestoreを更新
   const toggleTaskCompletion = useCallback(
     async (taskId: string, isCompleted: boolean) => {
       if (!currentUser || !currentUser.uid) {
@@ -86,6 +120,7 @@ export default function useTasks() {
     [currentUser]
   )
 
+  // タスクを削除してFirestoreを更新
   const deleteTask = useCallback(
     async (taskId: string) => {
       if (!currentUser || !currentUser.uid) {
@@ -106,10 +141,10 @@ export default function useTasks() {
 
   return {
     tasks,
-    setTasks,
+    inputRef,
     handleAddTask,
     toggleTaskCompletion,
     deleteTask,
-    inputRef,
+    handleDragEnd,
   }
 }
