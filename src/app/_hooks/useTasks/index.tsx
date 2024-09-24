@@ -24,7 +24,7 @@ export default function useTasks() {
     }
 
     const tasksCollectionRef = collection(db, 'users', currentUser.uid, 'tasks')
-    const q = query(tasksCollectionRef, orderBy('created_at', 'asc'))
+    const q = query(tasksCollectionRef, orderBy('order', 'desc'))
 
     // Firestoreのコレクションを監視してタスクの追加、更新、削除を行う
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -39,7 +39,6 @@ export default function useTasks() {
     return () => unsubscribe()
   }, [currentUser])
 
-  // useCallbackを使って関数をメモ化
   const handleAddTask = useCallback(async () => {
     if (!inputRef.current || !currentUser || !currentUser.uid) {
       console.error('Input element or user authentication is missing')
@@ -54,16 +53,18 @@ export default function useTasks() {
     }
 
     try {
+      const newOrder = tasks.length + 1 // タスクの順序を現在の長さ+1とする
       await addDoc(collection(db, 'users', currentUser.uid, 'tasks'), {
         title: taskTitle,
         is_completed: false,
         created_at: new Date(),
+        order: newOrder,
       })
       inputRef.current.value = ''
     } catch (error) {
       console.error('Error adding task to Firestore:', error)
     }
-  }, [currentUser])
+  }, [currentUser, tasks.length])
 
   const toggleTaskCompletion = useCallback(
     async (taskId: string, isCompleted: boolean) => {
@@ -105,6 +106,7 @@ export default function useTasks() {
 
   return {
     tasks,
+    setTasks,
     handleAddTask,
     toggleTaskCompletion,
     deleteTask,

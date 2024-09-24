@@ -2,34 +2,59 @@
 
 import useTasks from '@/_hooks/useTasks'
 import TaskList from '@/_components/TaskList'
+import { DndContext, closestCenter, DragEndEvent } from '@dnd-kit/core'
+import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export default function FireStoreTest2() {
-  const { tasks, handleAddTask, toggleTaskCompletion, deleteTask, inputRef } = useTasks()
+  const { tasks, setTasks, handleAddTask, toggleTaskCompletion, deleteTask, inputRef } = useTasks()
 
   // 未完了のタスクと完了済みのタスクを分ける
   const incompleteTasks = tasks.filter((task) => !task.is_completed)
   const completedTasks = tasks.filter((task) => task.is_completed)
 
+  // タスクのIDを抽出して変数に格納
+  const taskIds = {
+    incomplete: incompleteTasks.map((task) => task.id),
+    completed: completedTasks.map((task) => task.id),
+  }
+
+  // ドラッグ＆ドロップ完了時の動作
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (over && active.id !== over.id) {
+      setTasks((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id)
+        const newIndex = items.findIndex((item) => item.id === over.id)
+        return arrayMove(items, oldIndex, newIndex)
+      })
+    }
+  }
+
   return (
     <div className='my-8'>
       <h1 className='my-4 text-xl'>FireStoreTest 2</h1>
 
-      <section className='my-8'>
-        <h2 className='mb-2 text-lg'>未完了のタスク</h2>
-        <TaskList tasks={incompleteTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
-      </section>
+      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={taskIds.incomplete} strategy={verticalListSortingStrategy}>
+          <section className='my-8'>
+            <h2 className='mb-2 text-lg'>未完了のタスク</h2>
+            <TaskList tasks={incompleteTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
+          </section>
+        </SortableContext>
 
-      <div className='flex gap-1 py-2'>
-        <input className='border-2 p-2' type='text' ref={inputRef} placeholder='新しいタスクを入力' />
-        <button className='button' onClick={handleAddTask}>
-          追加
-        </button>
-      </div>
+        <div className='flex gap-1 py-2'>
+          <input className='border-2 p-2' type='text' ref={inputRef} placeholder='新しいタスクを入力' />
+          <button className='button' onClick={handleAddTask}>
+            追加
+          </button>
+        </div>
 
-      <section className='my-8'>
-        <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
-        <TaskList tasks={completedTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
-      </section>
+        <SortableContext items={taskIds.completed} strategy={verticalListSortingStrategy}>
+          <section className='my-8'>
+            <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
+            <TaskList tasks={completedTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
+          </section>
+        </SortableContext>
+      </DndContext>
     </div>
   )
 }
