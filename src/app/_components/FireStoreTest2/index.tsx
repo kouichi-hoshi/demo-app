@@ -6,7 +6,8 @@ import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export default function FireStoreTest2() {
-  const { tasks, handleAddTask, handleDragEnd, toggleTaskCompletion, deleteTask, inputRef } = useTasks()
+  const { tasks, handleAddTask, handleDragEnd, toggleTaskCompletion, deleteTask, updateTaskTitle, inputRef } =
+    useTasks()
 
   // 未完了のタスクと完了済みのタスクを分ける
   const incompleteTasks = tasks.filter((task) => !task.is_completed)
@@ -26,7 +27,12 @@ export default function FireStoreTest2() {
         <SortableContext items={taskIds.incomplete} strategy={verticalListSortingStrategy}>
           <section className='my-8'>
             <h2 className='mb-2 text-lg'>未完了のタスク</h2>
-            <TaskList tasks={incompleteTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
+            <TaskList
+              tasks={incompleteTasks}
+              toggleTaskCompletion={toggleTaskCompletion}
+              deleteTask={deleteTask}
+              updateTaskTitle={updateTaskTitle}
+            />
           </section>
         </SortableContext>
 
@@ -40,7 +46,12 @@ export default function FireStoreTest2() {
         <SortableContext items={taskIds.completed} strategy={verticalListSortingStrategy}>
           <section className='my-8'>
             <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
-            <TaskList tasks={completedTasks} toggleTaskCompletion={toggleTaskCompletion} deleteTask={deleteTask} />
+            <TaskList
+              tasks={completedTasks}
+              toggleTaskCompletion={toggleTaskCompletion}
+              deleteTask={deleteTask}
+              updateTaskTitle={updateTaskTitle}
+            />
           </section>
         </SortableContext>
       </DndContext>

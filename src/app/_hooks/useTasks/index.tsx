@@ -139,12 +139,32 @@ export default function useTasks() {
     [currentUser]
   )
 
+  // タスクのタイトルを変更してFirestoreを更新
+  const updateTaskTitle = useCallback(
+    async (taskId: string, newTitle: string) => {
+      if (!currentUser || !currentUser.uid) {
+        console.error('User is not authenticated or uid is missing')
+        return
+      }
+
+      const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
+
+      try {
+        await updateDoc(taskDocRef, { title: newTitle })
+      } catch (error) {
+        console.error('Error updating task completion status:', error)
+      }
+    },
+    [currentUser]
+  )
+
   return {
     tasks,
     inputRef,
     handleAddTask,
     toggleTaskCompletion,
     deleteTask,
+    updateTaskTitle,
     handleDragEnd,
   }
 }

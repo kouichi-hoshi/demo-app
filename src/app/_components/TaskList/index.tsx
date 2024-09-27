@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { FaBars } from 'react-icons/fa6'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -10,26 +10,37 @@ type TaskProps = {
   title: string
 }
 
+type TaskActionsProps = {
+  toggleTaskCompletion: TaskAction
+  deleteTask: (taskId: string) => void
+  updateTaskTitle: (taskId: string, newTitle: string) => void
+}
+
+type TaskItemProps = TaskActionsProps & {
+  task: TaskProps
+}
+
+type TaskListProps = TaskActionsProps & {
+  tasks: TaskProps[]
+}
+
 type TaskAction = (taskId: string, isCompleted: boolean) => void
 
-type TaskItemProps = {
-  task: TaskProps
-  toggleTaskCompletion: TaskAction
-  deleteTask: (taskId: string) => void
-}
-
-type TaskListProps = {
-  tasks: TaskProps[]
-  toggleTaskCompletion: TaskAction
-  deleteTask: (taskId: string) => void
-}
-
-function SortableTaskItem({ task, toggleTaskCompletion, deleteTask }: TaskItemProps) {
+function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteTask }: TaskItemProps) {
+  const titleInputRef = useRef<HTMLInputElement>(null)
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id })
 
+  // ドラッグ中のタスクのスタイルを設定
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  }
+
+  // タスクのタイトルを更新する関数
+  const handleUpdateTaskTitle = () => {
+    if (titleInputRef.current) {
+      updateTaskTitle(task.id, titleInputRef.current.value) // 入力された新しいタイトルを渡す
+    }
   }
 
   return (
@@ -39,7 +50,17 @@ function SortableTaskItem({ task, toggleTaskCompletion, deleteTask }: TaskItemPr
         <span {...listeners} {...attributes}>
           <FaBars />
         </span>
-        {task.title} - {task.is_completed ? 'Completed' : 'Incomplete'}
+        {task.title}
+        <input
+          ref={titleInputRef}
+          type='text'
+          className='border-2 p-2'
+          defaultValue={task.title}
+          placeholder='タスクタイトルを更新'
+        />
+        <button className='button' onClick={handleUpdateTaskTitle}>
+          更新
+        </button>
       </div>
       <div className='flex shrink-0 gap-2'>
         <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
@@ -53,7 +74,7 @@ function SortableTaskItem({ task, toggleTaskCompletion, deleteTask }: TaskItemPr
   )
 }
 
-const TaskList = ({ tasks, toggleTaskCompletion, deleteTask }: TaskListProps) => {
+const TaskList = ({ tasks, toggleTaskCompletion, updateTaskTitle, deleteTask }: TaskListProps) => {
   return (
     <ul className='border-t-2'>
       {tasks.map((task) => (
@@ -62,6 +83,7 @@ const TaskList = ({ tasks, toggleTaskCompletion, deleteTask }: TaskListProps) =>
           task={task}
           toggleTaskCompletion={toggleTaskCompletion}
           deleteTask={deleteTask}
+          updateTaskTitle={updateTaskTitle}
         />
       ))}
     </ul>
