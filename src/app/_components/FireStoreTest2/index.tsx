@@ -29,6 +29,7 @@ export default function FireStoreTest2() {
             <h2 className='mb-2 text-lg'>未完了のタスク</h2>
             <TaskList
               tasks={incompleteTasks}
+              emptyMessage='タスクがありません。登録しましょう！'
               toggleTaskCompletion={toggleTaskCompletion}
               deleteTask={deleteTask}
               updateTaskTitle={updateTaskTitle}
@@ -48,6 +49,7 @@ export default function FireStoreTest2() {
             <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
             <TaskList
               tasks={completedTasks}
+              emptyMessage='完了済みのタスクはありません。タスクを完了させましょう！'
               toggleTaskCompletion={toggleTaskCompletion}
               deleteTask={deleteTask}
               updateTaskTitle={updateTaskTitle}

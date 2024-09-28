@@ -22,6 +22,7 @@ type TaskItemProps = TaskActionsProps & {
 
 type TaskListProps = TaskActionsProps & {
   tasks: TaskProps[]
+  emptyMessage: string
 }
 
 type TaskAction = (taskId: string, isCompleted: boolean) => void
@@ -114,19 +115,25 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
   )
 }
 
-const TaskList = ({ tasks, toggleTaskCompletion, updateTaskTitle, deleteTask }: TaskListProps) => {
+const TaskList = ({ tasks, emptyMessage, toggleTaskCompletion, updateTaskTitle, deleteTask }: TaskListProps) => {
   return (
-    <ul className='border-t-2'>
-      {tasks.map((task) => (
-        <SortableTaskItem
-          key={task.id}
-          task={task}
-          toggleTaskCompletion={toggleTaskCompletion}
-          deleteTask={deleteTask}
-          updateTaskTitle={updateTaskTitle}
-        />
-      ))}
-    </ul>
+    <>
+      {tasks && tasks.length > 0 ? (
+        <ul className='border-t-2'>
+          {tasks.map((task) => (
+            <SortableTaskItem
+              key={task.id}
+              task={task}
+              toggleTaskCompletion={toggleTaskCompletion}
+              deleteTask={deleteTask}
+              updateTaskTitle={updateTaskTitle}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p className='my-4'>{emptyMessage}</p>
+      )}
+    </>
   )
 }
 
