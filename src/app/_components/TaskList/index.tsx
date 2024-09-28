@@ -131,11 +131,6 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
           ''
         )}
       </li>
-      <style jsx>{`
-        li[data-editing="true"] {
-          background-color: var(--editing-bg-color);
-        }
-      `}</style>
     </>
   )
 }
