@@ -2,12 +2,16 @@
 
 import useTasks from '@/_hooks/useTasks'
 import TaskList from '@/_components/TaskList'
+import { useState } from 'react'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export default function FireStoreTest2() {
   const { tasks, handleAddTask, handleDragEnd, toggleTaskCompletion, deleteTask, updateTaskTitle, inputRef } =
     useTasks()
+
+  // 完了済みタスクの表示状態を管理
+  const [showCompletedTasks, setShowCompletedTasks] = useState(false)
 
   // 未完了のタスクと完了済みのタスクを分ける
   const incompleteTasks = tasks.filter((task) => !task.is_completed)
@@ -37,26 +41,36 @@ export default function FireStoreTest2() {
           </section>
         </SortableContext>
 
-        <div className='flex gap-1 py-2'>
+        <div className='my-16 flex gap-1'>
           <input className='border-2 p-2' type='text' ref={inputRef} placeholder='新しいタスクを入力' />
           <button className='button-primary' onClick={handleAddTask}>
             追加
           </button>
         </div>
 
-        <SortableContext items={taskIds.completed} strategy={verticalListSortingStrategy}>
-          <section className='my-8'>
-            <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
-            <TaskList
-              tasks={completedTasks}
-              emptyMessage='完了済みのタスクはありません。タスクを完了させましょう！'
-              toggleTaskCompletion={toggleTaskCompletion}
-              deleteTask={deleteTask}
-              updateTaskTitle={updateTaskTitle}
-            />
-          </section>
-        </SortableContext>
+        {/* 完了済みタスクの表示/非表示を真偽値で切り替え */}
+        {showCompletedTasks && (
+          <SortableContext items={taskIds.completed} strategy={verticalListSortingStrategy}>
+            <section className='my-8'>
+              <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
+              <TaskList
+                tasks={completedTasks}
+                emptyMessage='完了済みのタスクはありません。タスクを完了させましょう！'
+                toggleTaskCompletion={toggleTaskCompletion}
+                deleteTask={deleteTask}
+                updateTaskTitle={updateTaskTitle}
+              />
+            </section>
+          </SortableContext>
+        )}
       </DndContext>
+
+      {/* ボタンで完了済みタスクの表示状態をトグル */}
+      <div className='my-16 text-center'>
+        <button className='button' onClick={() => setShowCompletedTasks(!showCompletedTasks)}>
+          {showCompletedTasks ? '完了済みタスクを非表示' : '完了済みタスクを表示'}
+        </button>
+      </div>
     </div>
   )
 }
