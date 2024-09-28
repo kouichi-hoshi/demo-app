@@ -16,7 +16,7 @@
     "tailwindcss/no-custom-classname": [
       "error",
       {
-        "whitelist": ["button", "baseContainer"],
+        "whitelist": ["baseContainer", "button", "button-primary", "button-secondary"],
         "cssModules": true
       }
     ]

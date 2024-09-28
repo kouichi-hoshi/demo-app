@@ -38,7 +38,7 @@ export default function FireStoreTest2() {
 
         <div className='flex gap-1 py-2'>
           <input className='border-2 p-2' type='text' ref={inputRef} placeholder='新しいタスクを入力' />
-          <button className='button' onClick={handleAddTask}>
+          <button className='button-primary' onClick={handleAddTask}>
             追加
           </button>
         </div>

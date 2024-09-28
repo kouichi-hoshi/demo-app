@@ -51,45 +51,66 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
   }
 
   return (
-    <li ref={setNodeRef} style={style} className='flex items-center justify-between gap-2 border-b-2 py-2'>
-      <div className='flex items-center gap-2'>
-        {/* この部分がドラッグ専用のハンドル */}
-        <span {...listeners} {...attributes}>
-          <FaBars />
-        </span>
-        {/* タスクタイトルの表示モードと編集モードを切り替える */}
-        {isEditing[task.id] ? (
-          <div>
-            <input
-              ref={titleInputRef}
-              type='text'
-              className='border-2 p-2'
-              defaultValue={task.title}
-              placeholder='タスクタイトルを更新'
-            />
-            <button className='button' onClick={handleUpdateTaskTitle}>
-              更新
+    <>
+      <li
+        ref={setNodeRef}
+        style={style}
+        className='flex flex-col items-end justify-between gap-4 border-b-2 p-4 sm:flex-row md:items-center'
+        data-editing={isEditing[task.id]} // 編集モードの状態を表すdata属性を追加
+      >
+        <div className='flex w-full items-center gap-4'>
+          {/* この部分がドラッグ専用のハンドル */}
+          <span {...listeners} {...attributes}>
+            <FaBars />
+          </span>
+          {/* タスクタイトルの表示モードと編集モードを切り替える */}
+          {isEditing[task.id] ? (
+            <div className='flex w-full flex-col gap-2 md:flex-row md:justify-between'>
+              <input
+                ref={titleInputRef}
+                type='text'
+                className='grow border-2 p-2'
+                defaultValue={task.title}
+                placeholder='タスクタイトルを更新'
+              />
+              <div className='flex gap-2'>
+                <button className='button-primary mr-auto w-1/2 md:mr-0 md:w-fit' onClick={handleUpdateTaskTitle}>
+                  更新
+                </button>
+                <button
+                  className='button-secondary mr-auto w-1/2 md:mr-0 md:w-fit'
+                  onClick={() => handleToggleEditMode(task.id)}
+                >
+                  キャンセル
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className='flex items-center gap-2'>{task.title}</div>
+          )}
+        </div>
+        {!isEditing[task.id] ? (
+          <div className='flex shrink-0 gap-2'>
+            <button className='button-primary' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
+              {task.is_completed ? '未完了に戻す' : '完了'}
             </button>
-            <button className='button' onClick={() => handleToggleEditMode(task.id)}>
-              キャンセル
+            <button className='button-secondary' onClick={() => handleToggleEditMode(task.id)}>
+              {isEditing[task.id] ? 'キャンセル' : '編集'}
+            </button>
+            <button className='px-4 py-2 text-xs text-gray-500' onClick={() => deleteTask(task.id)}>
+              削除
             </button>
           </div>
         ) : (
-          <div className='flex items-center gap-2'>{task.title}</div>
+          ''
         )}
-      </div>
-      <div className='flex shrink-0 gap-2'>
-        <button className='button' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
-          {task.is_completed ? '未完了に戻す' : '完了'}
-        </button>
-        <button className='button' onClick={() => handleToggleEditMode(task.id)}>
-          {isEditing[task.id] ? 'キャンセル' : '編集'}
-        </button>
-        <button className='px-4 py-2 text-xs' onClick={() => deleteTask(task.id)}>
-          削除
-        </button>
-      </div>
-    </li>
+      </li>
+      <style jsx>{`
+        li[data-editing="true"] {
+          background-color: var(--editing-bg-color);
+        }
+      `}</style>
+    </>
   )
 }
 
