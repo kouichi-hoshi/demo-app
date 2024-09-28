@@ -1,0 +1,8 @@
+.taskItem {
+  transition: background-color 0.3s ease;
+}
+
+.taskItem:hover {
+  @apply bg-slate-100;
+//  background-color: #f0f0f0; /* ホバー時の背景色 */
+}
