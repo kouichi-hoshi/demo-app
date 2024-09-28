@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, memo } from 'react'
 import { FaBars } from 'react-icons/fa6'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -160,10 +160,12 @@ const TaskList = ({ tasks, emptyMessage, toggleTaskCompletion, updateTaskTitle, 
   )
 }
 
-export default React.memo(TaskList, (prevProps, nextProps) => {
+export default memo(TaskList, (prevProps, nextProps) => {
   return (
     prevProps.tasks === nextProps.tasks &&
+    prevProps.emptyMessage === nextProps.emptyMessage &&
     prevProps.toggleTaskCompletion === nextProps.toggleTaskCompletion &&
-    prevProps.deleteTask === nextProps.deleteTask
+    prevProps.deleteTask === nextProps.deleteTask &&
+    prevProps.updateTaskTitle === nextProps.updateTaskTitle
   )
 })
