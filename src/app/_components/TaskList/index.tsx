@@ -31,6 +31,7 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
   const [isEditing, setIsEditing] = useState<{ [taskId: string]: boolean }>({}) // 各タスクの編集モードを管理
   const titleInputRef = useRef<HTMLInputElement>(null)
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id })
+  const [errorMessage, setErrorMessage] = useState<string | null>(null) // エラーメッセージの状態を管理
 
   // ドラッグ中のタスクのスタイルを設定
   const style = {
@@ -38,17 +39,27 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
     transition,
   }
 
-  // タスクのタイトルを更新する関数
-  const handleUpdateTaskTitle = () => {
+  // 編集モードと通常表示モードをトグルする関数
+  const handleToggleEditMode = (taskId: string) => {
     if (titleInputRef.current) {
-      updateTaskTitle(task.id, titleInputRef.current.value) // 入力された新しいタイトルを渡す
-      handleToggleEditMode(task.id) // 編集モードを終了
+      const trimmedTitle = titleInputRef.current.value.trim()
+
+      // タイトルが空白の場合はエラーメッセージをセットし、編集モードを維持
+      if (!trimmedTitle) {
+        setErrorMessage('タスクのタイトルを入力するか、キャンセルしてください。')
+        return
+      }
+      setErrorMessage(null) // エラーメッセージをクリア
     }
+
+    // タスクごとに編集モードをトグル
+    setIsEditing((prev) => ({ ...prev, [taskId]: !prev[taskId] }))
   }
 
-  // タスクのタイトルの編集モードを切り替える関数
-  const handleToggleEditMode = (taskId: string) => {
-    setIsEditing((prev) => ({ ...prev, [taskId]: !prev[taskId] })) // タスクごとに編集モードをトグル
+  // キャンセルボタン用の編集モード終了関数（バリデーションを行わない）
+  const handleCancelEditMode = (taskId: string) => {
+    setErrorMessage(null) // エラーメッセージをクリア
+    setIsEditing((prev) => ({ ...prev, [taskId]: false })) // 強制的に編集モードを終了
   }
 
   return (
@@ -66,21 +77,33 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
           </span>
           {/* タスクタイトルの表示モードと編集モードを切り替える */}
           {isEditing[task.id] ? (
-            <div className='flex w-full flex-col gap-2 md:flex-row md:justify-between'>
-              <input
-                ref={titleInputRef}
-                type='text'
-                className='grow border-2 p-2'
-                defaultValue={task.title}
-                placeholder='タスクタイトルを更新'
-              />
+            <div className='flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between'>
+              <div className='grow'>
+                <input
+                  ref={titleInputRef}
+                  type='text'
+                  className='w-full border-2 p-2'
+                  defaultValue={task.title}
+                  placeholder='タスクタイトルを更新'
+                />
+                {/* エラーメッセージを表示 */}
+                {errorMessage && <p className='error-message mt-2 text-xs'>{errorMessage}</p>}
+              </div>
               <div className='flex gap-2'>
-                <button className='button-primary mr-auto w-1/2 md:mr-0 md:w-fit' onClick={handleUpdateTaskTitle}>
+                <button
+                  className='button-primary mr-auto w-1/2 md:mr-0 md:w-fit'
+                  onClick={() => {
+                    if (titleInputRef.current) {
+                      updateTaskTitle(task.id, titleInputRef.current.value)
+                      handleToggleEditMode(task.id) // 編集モードを終了
+                    }
+                  }}
+                >
                   更新
                 </button>
                 <button
                   className='button-secondary mr-auto w-1/2 md:mr-0 md:w-fit'
-                  onClick={() => handleToggleEditMode(task.id)}
+                  onClick={() => handleCancelEditMode(task.id)}
                 >
                   キャンセル
                 </button>

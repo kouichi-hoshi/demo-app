@@ -44,7 +44,7 @@ export default function useTasks() {
     return () => unsubscribe()
   }, [currentUser])
 
-  // タスクを追加してFirestoreに保存
+  // タスクを追加してFirestoreを更新
   const handleAddTask = useCallback(async () => {
     if (!inputRef.current || !currentUser || !currentUser.uid) {
       console.error('Input element or user authentication is missing')
@@ -147,12 +147,19 @@ export default function useTasks() {
         return
       }
 
+      // タイトルが空白でないかチェック
+      const trimmedTitle = newTitle.trim()
+      if (!trimmedTitle) {
+        console.error('Task title is empty or contains only whitespace.')
+        return
+      }
+
       const taskDocRef = doc(db, 'users', currentUser.uid, 'tasks', taskId)
 
       try {
-        await updateDoc(taskDocRef, { title: newTitle })
+        await updateDoc(taskDocRef, { title: trimmedTitle })
       } catch (error) {
-        console.error('Error updating task completion status:', error)
+        console.error('Error updating task title:', error)
       }
     },
     [currentUser]
