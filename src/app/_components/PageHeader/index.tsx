@@ -9,7 +9,7 @@ type PageHeaderProps = {
 
 export default function PageHeader({
   title,
-  outerClassName = 'my-8',
+  outerClassName = 'my-8 md:my-12',
   className = 'text-4xl',
   tag = 'h1',
 }: PageHeaderProps) {

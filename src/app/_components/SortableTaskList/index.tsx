@@ -27,7 +27,6 @@ export default function FireStoreTest2() {
 
   return (
     <div className='my-8'>
-      <h1 className='my-4 text-xl'>SortableTaskList</h1>
       {currentUser ? (
         <>
           <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
