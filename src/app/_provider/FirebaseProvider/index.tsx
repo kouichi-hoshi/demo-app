@@ -23,7 +23,10 @@ export const useAuth = () => {
   if (context === null) {
     throw new Error('useAuth must be used within a FirebaseProvider')
   }
-  return context.currentUser
+  return {
+    auth: context.auth,
+    currentUser: context.currentUser,
+  }
 }
 
 export default function FirebaseProvider({ children }: { children: React.ReactNode }) {
@@ -50,7 +53,7 @@ export default function FirebaseProvider({ children }: { children: React.ReactNo
         const unsubscribe = authInstance.onAuthStateChanged((user) => {
           if (user) {
             setCurrentUser(sanitizeUser(user))
-            console.log(`User is logged in: ${user.displayName}`)
+            console.log('User is logged in')
           } else {
             console.log('User is not logged in')
             setCurrentUser(null)

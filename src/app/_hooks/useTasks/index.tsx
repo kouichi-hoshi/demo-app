@@ -15,7 +15,7 @@ type TaskProps = {
 // Firestoreのコレクションを監視してタスクの追加、更新、削除、ドラッグ＆ドロップを行う
 export default function useTasks() {
   const [tasks, setTasks] = useState<TaskProps[]>([])
-  const currentUser = useAuth()
+  const { currentUser } = useAuth()
   const inputRef = useRef<HTMLInputElement>(null)
 
   // ユーザーが認証されている場合、Firestoreのコレクションを監視
