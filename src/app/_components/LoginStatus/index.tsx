@@ -3,12 +3,12 @@
 import { useAuth } from '@/_provider/FirebaseProvider'
 
 export default function LoginStatus() {
-  const auth = useAuth()
+  const { currentUser } = useAuth()
 
   return (
-    <dl className='my-2 flex gap-2'>
+    <dl className='my-6 md:my-12 flex gap-2'>
       <dt>Login status:</dt>
-      {auth ? <dd>Logged in</dd> : <dd>Logged out</dd>}
+      {currentUser ? <dd>ログイン中</dd> : <dd>ログアウト</dd>}
     </dl>
   )
 }
