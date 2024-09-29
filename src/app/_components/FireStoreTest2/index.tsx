@@ -44,8 +44,13 @@ export default function FireStoreTest2() {
               </section>
             </SortableContext>
 
-            <div className='my-16 flex gap-1'>
-              <input className='border-2 p-2' type='text' ref={inputRef} placeholder='新しいタスクを入力' />
+            <div className='my-16 flex gap-2'>
+              <input
+                className='grow border-2 p-2 md:w-3/5 md:grow-0'
+                type='text'
+                ref={inputRef}
+                placeholder='新しいタスクを入力'
+              />
               <button className='button-primary' onClick={handleAddTask}>
                 追加
               </button>
