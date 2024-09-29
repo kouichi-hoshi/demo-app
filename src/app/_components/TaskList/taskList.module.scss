@@ -1,7 +1,15 @@
 .taskItem {
-  transition: background-color 0.3s ease;
-  &:hover {
-    @apply bg-slate-100;
+  // data-editing="true" がない場合にのみ hover アニメーションを適用
+  &:hover:not([data-editing="true"]) {
+    animation: changeBackgroundColor 0.3s ease forwards;
+    @keyframes changeBackgroundColor {
+      from {
+        background-color: initial;
+      }
+      to {
+        background-color: var(--editing-bg-color);
+      }
+    }
   }
   &[data-editing="true"] {
     background-color: var(--editing-bg-color);
