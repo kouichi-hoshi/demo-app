@@ -69,7 +69,7 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
       <li
         ref={setNodeRef}
         style={style}
-        className={`${styles.taskItem} flex flex-col items-end justify-between gap-4 border-b-2 p-4 sm:flex-row md:items-center`}
+        className={`${styles.taskItem} flex flex-col items-end justify-between gap-4 border-b-2 p-4 sm:flex-row sm:items-center`}
         data-editing={isEditing[task.id]} // 編集モードの状態を表すdata属性を追加
       >
         <div className='flex w-full items-center gap-4'>
