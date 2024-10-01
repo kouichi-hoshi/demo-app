@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import { useAuth } from '@/_provider/FirebaseProvider'
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'

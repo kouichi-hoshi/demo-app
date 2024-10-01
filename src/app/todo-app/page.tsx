@@ -2,9 +2,9 @@ import PageHeader from '@/_components/PageHeader'
 import SortableTaskList from '@/_components/SortableTaskList'
 
 const metaInitial = {
-  title: 'ToDo App',
+  title: 'ToDoアプリ',
   description:
-    'シンプルなTODOアプリです。ドラッグ&ドロップでタスクの順番を変更できます。PC、タブレット、スマートフォンに対応しています。',
+    'シンプルなToDoアプリです。ドラッグ&ドロップでタスクの順番を変更できます。PC、タブレット、スマートフォンに対応しています。',
   canonical: 'todo-app',
 }
 

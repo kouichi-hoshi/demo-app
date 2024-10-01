@@ -6,7 +6,7 @@ export default function LoginStatus() {
   const { currentUser } = useAuth()
 
   return (
-    <dl className='my-6 md:my-12 flex gap-2'>
+    <dl className='my-6 flex gap-2 md:my-12'>
       <dt>Login status:</dt>
       {currentUser ? <dd>ログイン中</dd> : <dd>ログアウト</dd>}
     </dl>
