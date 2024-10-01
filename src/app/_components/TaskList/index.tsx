@@ -114,8 +114,8 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
               </>
             ) : (
               <>
-                <div className='flex items-center gap-2'>{task.title}</div>
-                <div className='flex shrink-0 gap-2'>
+                <div className='flex items-center gap-2 py-2'>{task.title}</div>
+                <div className='flex shrink-0 justify-end gap-2'>
                   <button className='button-primary' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
                     {task.is_completed ? '未完了に戻す' : '完了'}
                   </button>
