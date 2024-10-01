@@ -77,59 +77,59 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
           <span {...listeners} {...attributes}>
             <FaBars />
           </span>
-          {/* タスクタイトルの表示モードと編集モードを切り替える */}
-          {isEditing[task.id] ? (
-            <div className='flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between'>
-              <div className='grow'>
-                <input
-                  ref={titleInputRef}
-                  type='text'
-                  className='w-full border-2 p-2'
-                  defaultValue={task.title}
-                  placeholder='タスクタイトルを更新'
-                />
-                {/* エラーメッセージを表示 */}
-                {errorMessage && <p className='error-message mt-2 text-xs'>{errorMessage}</p>}
-              </div>
-              <div className='flex gap-2'>
-                <button
-                  className='button-primary mr-auto w-1/2 md:mr-0 md:w-fit'
-                  onClick={() => {
-                    if (titleInputRef.current) {
-                      updateTaskTitle(task.id, titleInputRef.current.value)
-                      handleToggleEditMode(task.id) // 編集モードを終了
-                    }
-                  }}
-                >
-                  更新
-                </button>
-                <button
-                  className='button-secondary mr-auto w-1/2 md:mr-0 md:w-fit'
-                  onClick={() => handleCancelEditMode(task.id)}
-                >
-                  キャンセル
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className='flex items-center gap-2'>{task.title}</div>
-          )}
-        </div>
-        {!isEditing[task.id] ? (
-          <div className='flex shrink-0 gap-2'>
-            <button className='button-primary' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
-              {task.is_completed ? '未完了に戻す' : '完了'}
-            </button>
-            <button className='button-secondary' onClick={() => handleToggleEditMode(task.id)}>
-              {isEditing[task.id] ? 'キャンセル' : '編集'}
-            </button>
-            <button className='px-4 py-2 text-xs text-gray-500' onClick={() => deleteTask(task.id)}>
-              削除
-            </button>
+          <div className='flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between'>
+            {/* タスクタイトルの表示モードと編集モードを切り替える */}
+            {isEditing[task.id] ? (
+              <>
+                <div className='grow'>
+                  <input
+                    ref={titleInputRef}
+                    type='text'
+                    className='w-full border-2 p-2'
+                    defaultValue={task.title}
+                    placeholder='タスクタイトルを更新'
+                  />
+                  {/* エラーメッセージを表示 */}
+                  {errorMessage && <p className='error-message mt-2 text-xs'>{errorMessage}</p>}
+                </div>
+                <div className='flex gap-2'>
+                  <button
+                    className='button-primary mr-auto w-1/2 md:mr-0 md:w-fit'
+                    onClick={() => {
+                      if (titleInputRef.current) {
+                        updateTaskTitle(task.id, titleInputRef.current.value)
+                        handleToggleEditMode(task.id) // 編集モードを終了
+                      }
+                    }}
+                  >
+                    更新
+                  </button>
+                  <button
+                    className='button-secondary mr-auto w-1/2 md:mr-0 md:w-fit'
+                    onClick={() => handleCancelEditMode(task.id)}
+                  >
+                    キャンセル
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className='flex items-center gap-2'>{task.title}</div>
+                <div className='flex shrink-0 gap-2'>
+                  <button className='button-primary' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
+                    {task.is_completed ? '未完了に戻す' : '完了'}
+                  </button>
+                  <button className='button-secondary' onClick={() => handleToggleEditMode(task.id)}>
+                    {isEditing[task.id] ? 'キャンセル' : '編集'}
+                  </button>
+                  <button className='px-4 py-2 text-xs text-gray-500' onClick={() => deleteTask(task.id)}>
+                    削除
+                  </button>
+                </div>
+              </>
+            )}
           </div>
-        ) : (
-          ''
-        )}
+        </div>
       </li>
     </>
   )
