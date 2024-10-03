@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
-export default function FireStoreTest2() {
+export default function SortableTaskList() {
   const { currentUser } = useAuth()
   const { tasks, handleAddTask, handleDragEnd, toggleTaskCompletion, deleteTask, updateTaskTitle, inputRef } =
     useTasks()
