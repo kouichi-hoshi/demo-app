@@ -7,4 +7,7 @@ export const SITE_META = {
   siteIcon: '/android-chrome-192×192.png',
   siteAppleIcon: '/apple-touch-icon.png',
   openGraphImages: '/sd-img-1200-630.jpg',
+  masterSiteUrl: 'https://stella-design.biz',
+  masterSiteTitle: 'Stella Design',
+
 }

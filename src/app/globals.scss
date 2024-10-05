@@ -6,6 +6,9 @@
   --editing-bg-color: rgb(241 245 249);// tailwind bg-slate-100
 }
 
+a {
+  @apply underline;
+}
 
 .baseContainer {
   @apply container mx-auto px-4;
