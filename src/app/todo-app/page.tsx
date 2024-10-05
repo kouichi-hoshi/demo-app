@@ -34,10 +34,13 @@ export default function Home() {
           subTitleClassName={'inline-block rounded bg-neutral-500 px-4 py-1 text-sm text-white'}
         />
         <SortableTaskList />
-        <aside>
+        <aside className='border-2 p-8 md:p-16'>
           <header>
-            <h3 className='mb-2 border-b-2 pb-4 text-3xl'>このアプリについて</h3>
+            <h3 className='mb-2 pb-4 text-center text-3xl'>このアプリについて</h3>
           </header>
+          <div className='my-2 text-center'>
+            <button className='button'>開く</button>
+          </div>
           <section className='my-8'>
             <h2 className='mb-2 text-2xl'>概要</h2>
             <p className='mb-4'>
