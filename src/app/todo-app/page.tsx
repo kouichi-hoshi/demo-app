@@ -50,6 +50,7 @@ export default function Home() {
                 </p>
                 <ul className='mb-4 ml-4'>
                   <li className='list-disc'>PC、タブレット、スマートフォンに対応しています。</li>
+                  <li className='list-disc'>PCのキーボード操作に対応しています。</li>
                   <li className='list-disc'>ドラッグ&ドロップでタスクの順番を変更できます。</li>
                   <li className='list-disc'>
                     登録したタスクはデータベースに保存され、異なるデバイス間で同期して利用可能です。
