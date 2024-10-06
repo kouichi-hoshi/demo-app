@@ -41,11 +41,11 @@ export default function Home() {
           <>
             <SortableTaskList />
             <aside className='my-16'>
-              <details className='mx-auto md:w-9/12 lg:w-6/12'>
-                <summary className='my-12 text-center underline hover:cursor-pointer'>このアプリについて</summary>
+              <details className='md:w-9/12 lg:w-6/12'>
+                <summary className='my-12 underline hover:cursor-pointer'>このアプリについて</summary>
                 <section>
                   <header className='my-12'>
-                    <h3 className='text-center text-3xl'>このアプリについて</h3>
+                    <h3 className='text-3xl'>このアプリについて</h3>
                   </header>
                   <section className='my-12'>
                     <h4 className='mb-2 text-2xl'>概要</h4>

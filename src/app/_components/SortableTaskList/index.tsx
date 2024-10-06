@@ -72,7 +72,7 @@ export default function SortableTaskList() {
             )}
           </DndContext>
           {/* ボタンで完了済みタスクの表示状態をトグル */}
-          <div className='my-16 text-center'>
+          <div className='my-16'>
             <button className='button' onClick={() => setShowCompletedTasks(!showCompletedTasks)}>
               {showCompletedTasks ? '完了済みタスクを非表示' : '完了済みタスクを表示'}
             </button>
