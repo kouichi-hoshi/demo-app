@@ -5,7 +5,7 @@ import { SITE_META } from '@/_constants/constants'
 export default function CommonHeader() {
   return (
     <header>
-      <div className='baseContainer flex items-center justify-between gap-2 py-4'>
+      <div className='baseContainer flex flex-wrap items-center justify-between gap-2 py-4'>
         <p>
           <Link href='/'>{SITE_META.siteTitle}</Link>
         </p>
