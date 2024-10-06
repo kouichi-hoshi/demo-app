@@ -34,21 +34,19 @@ export default function Home() {
           subTitleClassName={'inline-block rounded bg-neutral-500 px-4 py-1 text-sm text-white'}
         />
         <SortableTaskList />
-        <aside className='my-32'>
-          <details>
-            <summary className='my-12 underline hover:cursor-pointer'>このアプリについて</summary>
+        <aside className='my-16'>
+          <details className='mx-auto md:w-9/12 lg:w-6/12'>
+            <summary className='my-12 text-center underline hover:cursor-pointer'>このアプリについて</summary>
             <section>
-              <header>
-                <h3 className='mb-2 pb-4 text-3xl'>このアプリについて</h3>
+              <header className='my-12'>
+                <h3 className='text-center text-3xl'>このアプリについて</h3>
               </header>
               <section className='my-12'>
                 <h4 className='mb-2 text-2xl'>概要</h4>
                 <p className='mb-4'>
-                  アプリ開発の学習のために制作した、シンプルなToDoアプリです。
+                  アプリ開発の学習のために制作した、シンプルなToDoアプリです。タスクの追加、編集、削除など一般的なToDoアプリの機能を実装しています。
                   <br />
-                  ベータ版として公開していますが、ログインすると、どなたでも無料でお試しいただけます。
-                  <br />
-                  タスクの追加、編集、削除など一般的なToDoアプリの機能を実装しています。
+                  どなたでも無料でお試しいただけますが、ベータ版のため予告なくサービスを終了する場合があります。
                 </p>
                 <ul className='mb-4 ml-4'>
                   <li className='list-disc'>PC、タブレット、スマートフォンに対応しています。</li>
@@ -59,19 +57,16 @@ export default function Home() {
                 </ul>
               </section>
               <section className='my-12'>
-                <h4 className='mb-2 text-2xl'>ログイン方法</h4>
+                <h4 className='mb-2 text-2xl'>ご利用方法</h4>
                 <p className='mb-4'>
-                  画面右上の「Googleでログイン」ボタンをクリック/タップしてログインすると、ログイン画面が開きます。
-                  <br />
+                  アプリにログインすると、ご利用が可能になります。画面右上の「Googleでログイン」ボタンをクリック/タップしてログインすると、ログイン画面が開きます。
                   画面の指示に従ってログインしてください。
                 </p>
               </section>
               <section className='my-12'>
                 <h4 className='mb-2 text-2xl'>ログアウトと接続解除</h4>
-                <p className='mb-4'>
-                  ログアウトボタンが表示されているときは、そのボタンをクリック/タップするとログアウトできます。
-                </p>
-                <p className='mb-4'>
+                <p>ログアウトボタンが表示されているときは、そのボタンをクリック/タップするとログアウトできます。</p>
+                <p>
                   アプリとの接続を解除する場合はGoogleアカウントの
                   <Link href='https://myaccount.google.com/security' target='_blank'>
                     セキュリティページ
@@ -85,6 +80,8 @@ export default function Home() {
                   アプリと接続を解除しても、登録したタスクの情報はデータベースから削除されません。
                   <br />
                   タスクのデータを完全に削除したい場合は、ログイン中にタスクの削除ボタンをクリック/タップして削除してください。
+                  <br />
+                  接続解除後に再接続も可能です。
                 </p>
               </section>
               <section className='my-12'>
@@ -99,6 +96,19 @@ export default function Home() {
                   </Link>
                 </p>
               </section>
+              <section className='my-12'>
+                <h4 className='mb-2 text-2xl'>免責事項</h4>
+                <p className='mb-4'>
+                  このアプリを利用することによって生じた、いかなる直接的または間接的な損害、損失、逸失利益等について、当方は一切の責任を負いません。
+                  <br />
+                  また、当方はこのアプリにおける正確性や完全性、特定の目的への適合性を保証しません。
+                  <br />
+                </p>
+                <p>
+                  このアプリは予告なく変更・削除される場合があります。アプリの利用に際しては、すべて利用者の責任において行われるものとします。
+                </p>
+              </section>
+              <p>個人情報の特定につながる内容は入力を控えてください。</p>
             </section>
           </details>
         </aside>
