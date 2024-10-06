@@ -40,10 +40,10 @@ export default function Home() {
         ) : (
           <>
             <SortableTaskList />
-            <aside className='my-16'>
-              <details className='md:w-9/12 lg:w-6/12'>
+            <aside className='mt-16'>
+              <details>
                 <summary className='my-12 underline hover:cursor-pointer'>このアプリについて</summary>
-                <section>
+                <section className='relative inset-x-1/2 ml-[-50vw] w-screen bg-gray-50 px-16 py-8'>
                   <header className='my-12'>
                     <h3 className='text-3xl'>このアプリについて</h3>
                   </header>
@@ -66,7 +66,10 @@ export default function Home() {
                   <section className='my-12'>
                     <h4 className='mb-2 text-2xl'>ご利用方法</h4>
                     <p className='mb-4'>
-                      アプリにログインすると、ご利用が可能になります。画面右上の「Googleでログイン」ボタンをクリック/タップしてログインすると、ログイン画面が開きます。
+                      アプリにログインするとご利用が可能になります。
+                      <br />
+                      画面右上の「Googleでログイン」ボタンをクリック/タップしてログインすると、ログイン画面が開きます。
+                      <br />
                       画面の指示に従ってログインしてください。
                     </p>
                   </section>
@@ -115,7 +118,6 @@ export default function Home() {
                       このアプリは予告なく変更・削除される場合があります。アプリの利用に際しては、すべて利用者の責任において行われるものとします。
                     </p>
                   </section>
-                  <p>個人情報の特定につながる内容は入力を控えてください。</p>
                 </section>
               </details>
             </aside>
