@@ -19,8 +19,7 @@ const firebaseConfig = {
   appId: FIREBASE_APP_ID,
 }
 
-export const app = initializeApp(firebaseConfig)
-export const initializeFirebaseApp = () =>
-  !getApps().length ? initializeApp(firebaseConfig) : getApp()
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
+const db = getFirestore(app)
 
-export const db = getFirestore(app)
+export { app, db }
