@@ -1,41 +1,41 @@
 /**
- * For a detailed explanation regarding each configuration property, visit:
+ * 各設定プロパティの詳細な説明については、以下を参照してください：
  * https://jestjs.io/docs/configuration
  */
 
 import type {Config} from 'jest';
 
 const config: Config = {
-  // All imported modules in your tests should be mocked automatically
+  // テストでインポートされたすべてのモジュールを自動的にモックする
   // automock: false,
 
-  // Stop running tests after `n` failures
+  // `n`回の失敗後にテストの実行を停止する
   // bail: 0,
 
-  // The directory where Jest should store its cached dependency information
+  // Jestが依存関係のキャッシュ情報を保存するディレクトリ
   // cacheDirectory: "/private/var/folders/f6/7kp74fpn7qzg97mmxjhr95600000gn/T/jest_dx",
 
-  // Automatically clear mock calls, instances, contexts and results before every test
+  // 各テストの前にモックの呼び出し、インスタンス、コンテキスト、および結果を自動的にクリアする
   clearMocks: true,
 
-  // Indicates whether the coverage information should be collected while executing the test
+  // テストの実行中にカバレッジ情報を収集するかどうかを示す
   collectCoverage: true,
 
-  // An array of glob patterns indicating a set of files for which coverage information should be collected
+  // カバレッジ情報を収集するファイルのセットを示すglobパターンの配列
   // collectCoverageFrom: undefined,
 
-  // The directory where Jest should output its coverage files
+  // Jestがカバレッジファイルを出力するディレクトリ
   coverageDirectory: "coverage",
 
-  // An array of regexp pattern strings used to skip coverage collection
+  // カバレッジの収集をスキップするために使用される正規表現パターンの配列
   // coveragePathIgnorePatterns: [
   //   "/node_modules/"
   // ],
 
-  // Indicates which provider should be used to instrument code for coverage
+  // カバレッジの計測に使用するプロバイダーを指定
   coverageProvider: "v8",
 
-  // A list of reporter names that Jest uses when writing coverage reports
+  // Jestがカバレッジレポートを書き出すときに使用するレポーターの名前のリスト
   // coverageReporters: [
   //   "json",
   //   "text",
@@ -43,41 +43,41 @@ const config: Config = {
   //   "clover"
   // ],
 
-  // An object that configures minimum threshold enforcement for coverage results
+  // カバレッジ結果の最小しきい値の適用を設定するオブジェクト
   // coverageThreshold: undefined,
 
-  // A path to a custom dependency extractor
+  // カスタムの依存関係エクストラクターへのパス
   // dependencyExtractor: undefined,
 
-  // Make calling deprecated APIs throw helpful error messages
+  // 非推奨のAPIを呼び出すと有用なエラーメッセージを投げる
   // errorOnDeprecated: false,
 
-  // The default configuration for fake timers
+  // フェイクタイマーのデフォルト設定
   // fakeTimers: {
   //   "enableGlobally": false
   // },
 
-  // Force coverage collection from ignored files using an array of glob patterns
+  // globパターンの配列を使用して、無視されたファイルからのカバレッジ収集を強制する
   // forceCoverageMatch: [],
 
-  // A path to a module which exports an async function that is triggered once before all test suites
+  // すべてのテストスイートの前に一度だけトリガーされる非同期関数をエクスポートするモジュールへのパス
   // globalSetup: undefined,
 
-  // A path to a module which exports an async function that is triggered once after all test suites
+  // すべてのテストスイートの後に一度だけトリガーされる非同期関数をエクスポートするモジュールへのパス
   // globalTeardown: undefined,
 
-  // A set of global variables that need to be available in all test environments
+  // すべてのテスト環境で利用可能である必要があるグローバル変数のセット
   // globals: {},
 
-  // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
+  // テストの実行に使用される最大ワーカー数。%または数値で指定できます。例：maxWorkers: 10% は最大ワーカー数としてCPU数の10%+1を使用します。maxWorkers: 2 は最大2つのワーカーを使用します。
   // maxWorkers: "50%",
 
-  // An array of directory names to be searched recursively up from the requiring module's location
+  // 要求するモジュールの場所から再帰的に上に検索されるディレクトリ名の配列
   // moduleDirectories: [
   //   "node_modules"
   // ],
 
-  // An array of file extensions your modules use
+  // モジュールで使用するファイル拡張子の配列
   // moduleFileExtensions: [
   //   "js",
   //   "mjs",
@@ -89,110 +89,110 @@ const config: Config = {
   //   "node"
   // ],
 
-  // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
+  // 正規表現からモジュール名またはモジュール名の配列へのマップ。単一のモジュールでリソースをスタブアウトすることを可能にします。
   // moduleNameMapper: {},
 
-  // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
+  // モジュールローダーが「可視」と見なす前に、すべてのモジュールパスに対してマッチされる正規表現パターンの配列
   // modulePathIgnorePatterns: [],
 
-  // Activates notifications for test results
+  // テスト結果の通知を有効化する
   // notify: false,
 
-  // An enum that specifies notification mode. Requires { notify: true }
+  // 通知モードを指定する列挙型。{ notify: true }が必要
   // notifyMode: "failure-change",
 
-  // A preset that is used as a base for Jest's configuration
+  // Jestの設定のベースとして使用されるプリセット
   // preset: undefined,
 
-  // Run tests from one or more projects
+  // 1つ以上のプロジェクトからテストを実行する
   // projects: undefined,
 
-  // Use this configuration option to add custom reporters to Jest
+  // カスタムレポーターをJestに追加するためにこの設定オプションを使用
   // reporters: undefined,
 
-  // Automatically reset mock state before every test
+  // 各テストの前にモック状態を自動的にリセットする
   // resetMocks: false,
 
-  // Reset the module registry before running each individual test
+  // 各個別のテストを実行する前にモジュールレジストリをリセットする
   // resetModules: false,
 
-  // A path to a custom resolver
+  // カスタムリゾルバへのパス
   // resolver: undefined,
 
-  // Automatically restore mock state and implementation before every test
+  // 各テストの前にモックの状態と実装を自動的に復元する
   // restoreMocks: false,
 
-  // The root directory that Jest should scan for tests and modules within
+  // Jestがテストやモジュールをスキャンすべきルートディレクトリ
   // rootDir: undefined,
 
-  // A list of paths to directories that Jest should use to search for files in
+  // Jestがファイルを検索するために使用すべきディレクトリのパスのリスト
   // roots: [
   //   "<rootDir>"
   // ],
 
-  // Allows you to use a custom runner instead of Jest's default test runner
+  // Jestのデフォルトのテストランナーの代わりにカスタムランナーを使用できるようにする
   // runner: "jest-runner",
 
-  // The paths to modules that run some code to configure or set up the testing environment before each test
+  // 各テストの前にテスト環境を構成またはセットアップするためのコードを実行するモジュールへのパス
   // setupFiles: [],
 
-  // A list of paths to modules that run some code to configure or set up the testing framework before each test
+  // 各テストの前にテストフレームワークを構成またはセットアップするためのコードを実行するモジュールへのパスのリスト
   // setupFilesAfterEnv: [],
 
-  // The number of seconds after which a test is considered as slow and reported as such in the results.
+  // テストが遅いと見なされ、結果でそのように報告されるまでの秒数
   // slowTestThreshold: 5,
 
-  // A list of paths to snapshot serializer modules Jest should use for snapshot testing
+  // スナップショットテストのためにJestが使用すべきスナップショットシリアライザモジュールのパスのリスト
   // snapshotSerializers: [],
 
-  // The test environment that will be used for testing
+  // テストに使用されるテスト環境
   testEnvironment: "jsdom",
 
-  // Options that will be passed to the testEnvironment
+  // testEnvironmentに渡されるオプション
   // testEnvironmentOptions: {},
 
-  // Adds a location field to test results
+  // テスト結果にlocationフィールドを追加する
   // testLocationInResults: false,
 
-  // The glob patterns Jest uses to detect test files
+  // Jestがテストファイルを検出するために使用するglobパターン
   // testMatch: [
   //   "**/__tests__/**/*.[jt]s?(x)",
   //   "**/?(*.)+(spec|test).[tj]s?(x)"
   // ],
 
-  // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
+  // すべてのテストパスに対してマッチされる正規表現パターンの配列。マッチしたテストはスキップされる
   // testPathIgnorePatterns: [
   //   "/node_modules/"
   // ],
 
-  // The regexp pattern or array of patterns that Jest uses to detect test files
+  // Jestがテストファイルを検出するために使用する正規表現パターンまたはパターンの配列
   // testRegex: [],
 
-  // This option allows the use of a custom results processor
+  // カスタムの結果プロセッサを使用するためのオプション
   // testResultsProcessor: undefined,
 
-  // This option allows use of a custom test runner
+  // カスタムのテストランナーを使用するためのオプション
   // testRunner: "jest-circus/runner",
 
-  // A map from regular expressions to paths to transformers
+  // 正規表現からトランスフォーマーへのパスへのマップ
   // transform: undefined,
 
-  // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
+  // すべてのソースファイルパスに対してマッチされる正規表現パターンの配列。マッチしたファイルは変換をスキップする
   // transformIgnorePatterns: [
   //   "/node_modules/",
   //   "\\.pnp\\.[^\\/]+$"
   // ],
 
-  // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
+  // モジュールローダーが自動的にモックを返す前に、すべてのモジュールに対してマッチされる正規表現パターンの配列
   // unmockedModulePathPatterns: undefined,
 
-  // Indicates whether each individual test should be reported during the run
+  // 実行中に各個別のテストを報告するかどうかを示す
   // verbose: undefined,
 
-  // An array of regexp patterns that are matched against all source file paths before re-running tests in watch mode
+  // ウォッチモードでテストを再実行する前に、すべてのソースファイルパスに対してマッチされる正規表現パターンの配列
   // watchPathIgnorePatterns: [],
 
-  // Whether to use watchman for file crawling
+  // ファイルクロールにwatchmanを使用するかどうか
   // watchman: true,
 };
 
