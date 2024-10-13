@@ -5,6 +5,10 @@
 
 import type {Config} from 'jest';
 
+const createJestConfig = nextJest({
+  dir: './',
+});
+
 const config: Config = {
   // テストでインポートされたすべてのモジュールを自動的にモックする
   // automock: false,
@@ -90,7 +94,9 @@ const config: Config = {
   // ],
 
   // 正規表現からモジュール名またはモジュール名の配列へのマップ。単一のモジュールでリソースをスタブアウトすることを可能にします。
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    '@/(.*)$': '<rootDir>/src/$1',
+  },
 
   // モジュールローダーが「可視」と見なす前に、すべてのモジュールパスに対してマッチされる正規表現パターンの配列
   // modulePathIgnorePatterns: [],
@@ -147,6 +153,9 @@ const config: Config = {
 
   // テストに使用されるテスト環境
   testEnvironment: "jsdom",
+
+  // 各テストを実行する前に、さらに設定オプションを追加する
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
   // testEnvironmentに渡されるオプション
   // testEnvironmentOptions: {},
