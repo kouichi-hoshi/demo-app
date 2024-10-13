@@ -44,6 +44,7 @@ export default function FirebaseProvider({ children }: { children: React.ReactNo
 
   useEffect(() => {
     try {
+      console.log('Initializing Firebase...')
       const app = initializeFirebaseApp()
       const authInstance = getAuth(app)
       if (authInstance) {
