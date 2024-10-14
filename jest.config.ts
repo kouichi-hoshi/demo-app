@@ -3,13 +3,23 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type {Config} from 'jest';
+import type { Config } from 'jest';
+import nextJest from 'next/jest.js';
 
 const createJestConfig = nextJest({
   dir: './',
 });
 
 const config: Config = {
+
+  // test用の環境変数を設定する
+  globalSetup: '<rootDir>/src/app/__tests__/setupEnv.ts',
+
+  // テストを除外するファイルを指定する
+  testPathIgnorePatterns: [
+    '/src/app/__tests__/setupEnv.ts'
+  ],
+
   // テストでインポートされたすべてのモジュールを自動的にモックする
   // automock: false,
 
@@ -205,4 +215,4 @@ const config: Config = {
   // watchman: true,
 };
 
-export default config;
+export default createJestConfig(config)
