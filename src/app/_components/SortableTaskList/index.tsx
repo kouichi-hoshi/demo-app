@@ -29,6 +29,18 @@ export default function SortableTaskList() {
     <div className='my-8'>
       {currentUser && (
         <>
+          <div className='my-16 flex gap-2'>
+            <input
+              className='grow border-2 p-2 md:w-3/5 md:grow-0'
+              type='text'
+              ref={inputRef}
+              placeholder='新しいタスクを入力'
+            />
+            <button className='button-primary' onClick={handleAddTask}>
+              追加
+            </button>
+          </div>
+
           <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext items={taskIds.incomplete} strategy={verticalListSortingStrategy}>
               <section className='my-8'>
@@ -42,18 +54,6 @@ export default function SortableTaskList() {
                 />
               </section>
             </SortableContext>
-
-            <div className='my-16 flex gap-2'>
-              <input
-                className='grow border-2 p-2 md:w-3/5 md:grow-0'
-                type='text'
-                ref={inputRef}
-                placeholder='新しいタスクを入力'
-              />
-              <button className='button-primary' onClick={handleAddTask}>
-                追加
-              </button>
-            </div>
 
             {/* 完了済みタスクの表示/非表示を真偽値で切り替え */}
             {showCompletedTasks && (
