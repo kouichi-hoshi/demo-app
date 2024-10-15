@@ -152,7 +152,7 @@ export default function useTasks() {
       // タイトルが空白でないかチェック
       const trimmedTitle = newTitle.trim()
       if (!trimmedTitle) {
-        console.error('Task title is empty or contains only whitespace.')
+        console.log('Task title is empty or contains only whitespace.')
         return
       }
 

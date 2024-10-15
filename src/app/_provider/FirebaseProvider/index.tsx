@@ -1,9 +1,8 @@
 'use client'
 
 import { createContext, useEffect, useContext, useState } from 'react'
-import { getApps } from 'firebase/app'
 import { Auth, getAuth, User } from 'firebase/auth'
-import { initializeFirebaseApp } from '@/_lib/firebase'
+import { app } from '@/_lib/firebase'
 
 type SanitizedUser = {
   displayName: string | null
@@ -43,35 +42,21 @@ export default function FirebaseProvider({ children }: { children: React.ReactNo
   }
 
   useEffect(() => {
-    try {
-      const app = initializeFirebaseApp()
-      const authInstance = getAuth(app)
-      if (authInstance) {
-        setAuth(authInstance)
+    const authInstance = getAuth(app)
+    setAuth(authInstance)
 
-        // 認証状態の変化を監視
-        const unsubscribe = authInstance.onAuthStateChanged((user) => {
-          if (user) {
-            setCurrentUser(sanitizeUser(user))
-            console.log('User is logged in')
-          } else {
-            console.log('User is not logged in')
-            setCurrentUser(null)
-          }
-        })
-
-        return () => unsubscribe()
+    // 認証状態の監視
+    const unsubscribe = authInstance.onAuthStateChanged((user) => {
+      if (user) {
+        setCurrentUser(sanitizeUser(user))
+        console.log('User is logged in')
+      } else {
+        console.log('User is not logged in')
+        setCurrentUser(null)
       }
-      console.log('Firebase has been initialized successfully.')
-    } catch (error) {
-      console.error('Failed to initialize Firebase:', error)
-    }
+    })
 
-    if (getApps().length > 0) {
-      console.log('Firebase apps:', getApps())
-    } else {
-      console.log('No Firebase apps have been initialized.')
-    }
+    return () => unsubscribe()
   }, [])
 
   return <FirebaseContext.Provider value={{ auth, currentUser }}>{children}</FirebaseContext.Provider>
