@@ -29,7 +29,7 @@ export default function useTasks() {
     const tasksCollectionRef = collection(db, 'users', currentUser.uid, 'tasks')
 
     // タスクを order フィールドで昇順に並び替える
-    const q = query(tasksCollectionRef, orderBy('order', 'asc'))
+    const q = query(tasksCollectionRef, orderBy('order', 'desc'))
 
     // Firestoreのコレクションを監視してタスクの追加、更新、削除を行う
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -85,11 +85,13 @@ export default function useTasks() {
           const oldIndex = items.findIndex((item) => item.id === active.id)
           const newIndex = items.findIndex((item) => item.id === over.id)
           const updatedTasks = arrayMove(items, oldIndex, newIndex)
+          /** タスクの全数 */
+          const totalTasks: number = updatedTasks.length
 
           // Firestoreの order フィールドを更新
           updatedTasks.forEach((task, index) => {
             const taskDocRef = doc(db, 'users', currentUser.uid!, 'tasks', task.id) // uid!でnullチェックを回避
-            updateDoc(taskDocRef, { order: index + 1 })
+            updateDoc(taskDocRef, { order: totalTasks - index })
           })
 
           return updatedTasks
