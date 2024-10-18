@@ -6,7 +6,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: process.env.FIREBASE_IMG_HOSTNAME,
         port: '',
-        pathname: process.env.FIREBASE_IMG_PATHNAME,
+        // pathname: process.env.FIREBASE_IMG_PATHNAME,
       },
     ],
   },
