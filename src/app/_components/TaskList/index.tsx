@@ -1,5 +1,4 @@
 import React, { useState, useRef, memo } from 'react'
-import { FaBars } from 'react-icons/fa6'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
