@@ -74,9 +74,6 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
       >
         <div className='flex w-full items-center gap-4'>
           {/* この部分がドラッグ専用のハンドル */}
-          <span {...listeners} {...attributes}>
-            <FaBars />
-          </span>
           <div className='flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between'>
             {/* タスクタイトルの表示モードと編集モードを切り替える */}
             {isEditing[task.id] ? (
@@ -114,7 +111,9 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
               </>
             ) : (
               <>
-                <div className='flex items-center gap-2 py-2'>{task.title}</div>
+                <div {...listeners} {...attributes} className='flex w-full items-center gap-2 py-2'>
+                  {task.title}
+                </div>
                 <div className='flex shrink-0 justify-end gap-2'>
                   <button className='button-primary' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
                     {task.is_completed ? '未完了に戻す' : '完了'}
