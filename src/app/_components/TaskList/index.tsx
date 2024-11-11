@@ -74,7 +74,7 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
       >
         <div className='flex w-full items-center gap-4'>
           {/* この部分がドラッグ専用のハンドル */}
-          <span {...listeners} {...attributes}>
+          <span className='select-none' {...listeners} {...attributes}>
             <FaBars />
           </span>
           <div className='flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between'>
