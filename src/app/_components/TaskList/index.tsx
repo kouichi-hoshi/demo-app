@@ -72,9 +72,9 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
         className={`${styles.taskItem} flex flex-col items-end justify-between gap-4 border-b-2 p-4 sm:flex-row sm:items-center`}
         data-editing={isEditing[task.id]} // 編集モードの状態を表すdata属性を追加
       >
-        <div className='flex w-full items-center gap-4'>
+        <div className='flex w-full items-stretch gap-4 '>
           {/* この部分がドラッグ専用のハンドル */}
-          <span {...listeners} {...attributes}>
+          <span {...listeners} {...attributes} className='flex items-center'>
             <FaBars />
           </span>
           <div className='flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between'>
@@ -119,7 +119,7 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
                 <div className='flex items-center gap-2 py-2'>{task.title}</div>
                 <div className='flex shrink-0 justify-end gap-2'>
                   <button className='button-primary' onClick={() => toggleTaskCompletion(task.id, task.is_completed)}>
-                    {task.is_completed ? '未完了に戻す' : '完了'}
+                    {task.is_completed ? '未完了' : '完了'}
                   </button>
                   <button className='button-secondary' onClick={() => handleToggleEditMode(task.id)}>
                     編集
@@ -144,7 +144,7 @@ const TaskList = ({ tasks, emptyMessage, toggleTaskCompletion, updateTaskTitle, 
   return (
     <>
       {tasks && tasks.length > 0 ? (
-        <ul className='border-t-2'>
+        <ul className='border-t-2 pl-8 md:pl-0'>
           {tasks.map((task) => (
             <SortableTaskItem
               key={task.id}
