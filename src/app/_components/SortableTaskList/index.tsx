@@ -55,6 +55,13 @@ export default function SortableTaskList() {
               </section>
             </SortableContext>
 
+            {/* ボタンで完了済みタスクの表示状態をトグル */}
+            <div className='my-16'>
+              <button className='button' onClick={() => setShowCompletedTasks(!showCompletedTasks)}>
+                {showCompletedTasks ? '完了済みタスクを非表示' : '完了済みタスクを表示'}
+              </button>
+            </div>
+
             {/* 完了済みタスクの表示/非表示を真偽値で切り替え */}
             {showCompletedTasks && (
               <SortableContext items={taskIds.completed} strategy={verticalListSortingStrategy}>
@@ -71,12 +78,6 @@ export default function SortableTaskList() {
               </SortableContext>
             )}
           </DndContext>
-          {/* ボタンで完了済みタスクの表示状態をトグル */}
-          <div className='my-16'>
-            <button className='button' onClick={() => setShowCompletedTasks(!showCompletedTasks)}>
-              {showCompletedTasks ? '完了済みタスクを非表示' : '完了済みタスクを表示'}
-            </button>
-          </div>
         </>
       )}
     </div>
