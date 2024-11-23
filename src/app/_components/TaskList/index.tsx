@@ -31,6 +31,7 @@ type TaskAction = (taskId: string, isCompleted: boolean) => void
 
 function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteTask }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState<{ [taskId: string]: boolean }>({}) // 各タスクの編集モードを管理
+  const [isComposing, setIsComposing] = useState(false) // IME変換中かどうかを管理
   const titleInputRef = useRef<HTMLInputElement>(null)
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id })
   const [errorMessage, setErrorMessage] = useState<string | null>(null) // エラーメッセージの状態を管理
@@ -89,8 +90,10 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
                     className='w-full border-2 p-2'
                     defaultValue={task.title}
                     placeholder='タスクタイトルを更新'
+                    onCompositionStart={() => setIsComposing(true)} // 変換開始
+                    onCompositionEnd={() => setIsComposing(false)} // 変換終了
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && titleInputRef.current) {
+                      if (e.key === 'Enter' && !isComposing && titleInputRef.current) {
                         updateTaskTitle(task.id, titleInputRef.current.value)
                         handleToggleEditMode(task.id) // 編集モードを終了
                       }
