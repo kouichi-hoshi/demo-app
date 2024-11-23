@@ -1,4 +1,4 @@
-import React, { useState, useRef, memo } from 'react'
+import React, { useState, useEffect, useRef, memo } from 'react'
 import { FaBars } from 'react-icons/fa6'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -64,6 +64,13 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
     setErrorMessage(null) // エラーメッセージをクリア
     setIsEditing((prev) => ({ ...prev, [taskId]: false })) // 強制的に編集モードを終了
   }
+
+  // 編集モードが有効になったときにinputにフォーカスを当てる
+  useEffect(() => {
+    if (isEditing[task.id] && titleInputRef.current) {
+      titleInputRef.current.focus()
+    }
+  }, [isEditing, task.id])
 
   return (
     <>
