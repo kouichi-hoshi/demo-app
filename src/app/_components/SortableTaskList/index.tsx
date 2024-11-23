@@ -85,11 +85,20 @@ export default function SortableTaskList() {
                     />
                   </section>
                 </SortableContext>
-                <div>
-                  <button className='button-danger' onClick={deleteCompletedTasks}>
-                    完了済みタスクを一括削除
-                  </button>
-                </div>
+                {completedTasks.length > 0 && (
+                  <div>
+                    <button
+                      className='button-danger'
+                      onClick={() => {
+                        if (window.confirm('完了済みのタスクを削除すると復元できません。本当に削除しますか？')) {
+                          deleteCompletedTasks()
+                        }
+                      }}
+                    >
+                      完了済みタスクを一括削除
+                    </button>
+                  </div>
+                )}
               </>
             )}
           </DndContext>
