@@ -89,6 +89,12 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
                     className='w-full border-2 p-2'
                     defaultValue={task.title}
                     placeholder='タスクタイトルを更新'
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && titleInputRef.current) {
+                        updateTaskTitle(task.id, titleInputRef.current.value)
+                        handleToggleEditMode(task.id) // 編集モードを終了
+                      }
+                    }}
                   />
                   {/* エラーメッセージを表示 */}
                   {errorMessage && <p className='error-message mt-2 text-xs'>{errorMessage}</p>}
