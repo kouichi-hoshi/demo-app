@@ -1,6 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { db } from '@/_lib/firebase'
-import { collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from 'firebase/firestore'
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  doc,
+  updateDoc,
+  deleteDoc,
+  where,
+  getDocs,
+  writeBatch,
+} from 'firebase/firestore'
 import { useAuth } from '@/_provider/FirebaseProvider'
 import { DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
@@ -167,6 +179,29 @@ export default function useTasks() {
     [currentUser]
   )
 
+  // 完了済みのタスクを一括で削除する
+  const deleteCompletedTasks = useCallback(async () => {
+    if (!currentUser || !currentUser.uid) {
+      console.error('User is not authenticated or uid is missing')
+      return
+    }
+
+    const tasksCollectionRef = collection(db, 'users', currentUser.uid, 'tasks')
+    const q = query(tasksCollectionRef, where('is_completed', '==', true))
+
+    try {
+      const querySnapshot = await getDocs(q)
+      const batch = writeBatch(db)
+      querySnapshot.forEach((doc) => {
+        batch.delete(doc.ref)
+      })
+      await batch.commit()
+      console.log('Completed tasks deleted successfully')
+    } catch (error) {
+      console.error('Error deleting completed tasks: ', error)
+    }
+  }, [currentUser])
+
   return {
     tasks,
     inputRef,
@@ -175,5 +210,6 @@ export default function useTasks() {
     deleteTask,
     updateTaskTitle,
     handleDragEnd,
+    deleteCompletedTasks,
   }
 }

@@ -9,8 +9,16 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export default function SortableTaskList() {
   const { currentUser } = useAuth()
-  const { tasks, handleAddTask, handleDragEnd, toggleTaskCompletion, deleteTask, updateTaskTitle, inputRef } =
-    useTasks()
+  const {
+    tasks,
+    handleAddTask,
+    handleDragEnd,
+    toggleTaskCompletion,
+    deleteTask,
+    updateTaskTitle,
+    deleteCompletedTasks,
+    inputRef,
+  } = useTasks()
 
   // 完了済みタスクの表示状態を管理
   const [showCompletedTasks, setShowCompletedTasks] = useState(false)
@@ -64,18 +72,25 @@ export default function SortableTaskList() {
 
             {/* 完了済みタスクの表示/非表示を真偽値で切り替え */}
             {showCompletedTasks && (
-              <SortableContext items={taskIds.completed} strategy={verticalListSortingStrategy}>
-                <section className='my-8'>
-                  <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
-                  <TaskList
-                    tasks={completedTasks}
-                    emptyMessage='完了済みのタスクはありません。'
-                    toggleTaskCompletion={toggleTaskCompletion}
-                    deleteTask={deleteTask}
-                    updateTaskTitle={updateTaskTitle}
-                  />
-                </section>
-              </SortableContext>
+              <>
+                <SortableContext items={taskIds.completed} strategy={verticalListSortingStrategy}>
+                  <section className='my-8'>
+                    <h2 className='mb-2 text-lg'>完了済みのタスク</h2>
+                    <TaskList
+                      tasks={completedTasks}
+                      emptyMessage='完了済みのタスクはありません。'
+                      toggleTaskCompletion={toggleTaskCompletion}
+                      deleteTask={deleteTask}
+                      updateTaskTitle={updateTaskTitle}
+                    />
+                  </section>
+                </SortableContext>
+                <div>
+                  <button className='button-danger' onClick={deleteCompletedTasks}>
+                    完了済みタスクを一括削除
+                  </button>
+                </div>
+              </>
             )}
           </DndContext>
         </>
