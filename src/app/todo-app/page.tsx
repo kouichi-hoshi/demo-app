@@ -43,7 +43,7 @@ export default function Home() {
             <aside className='mt-16'>
               <details>
                 <summary className='my-12 underline hover:cursor-pointer'>このアプリについて</summary>
-                <section className='relative inset-x-1/2 ml-[-50vw] w-screen bg-gray-50 px-16 py-8'>
+                <section className='relative inset-x-1/2 ml-[-50vw] w-screen bg-gray-50 p-8 md:px-16'>
                   <header className='my-12'>
                     <h3 className='text-3xl'>このアプリについて</h3>
                   </header>
