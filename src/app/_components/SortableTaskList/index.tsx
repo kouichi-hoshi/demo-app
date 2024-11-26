@@ -43,6 +43,11 @@ export default function SortableTaskList() {
               type='text'
               ref={inputRef}
               placeholder='新しいタスクを入力'
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleAddTask()
+                }
+              }}
             />
             <button className='button-primary' onClick={handleAddTask}>
               追加
