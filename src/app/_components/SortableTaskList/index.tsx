@@ -33,6 +33,9 @@ export default function SortableTaskList() {
     completed: completedTasks.map((task) => task.id),
   }
 
+  // IME変換中かどうかを管理
+  const [isComposing, setIsComposing] = useState(false)
+
   return (
     <div className='my-8'>
       {currentUser && (
@@ -43,8 +46,10 @@ export default function SortableTaskList() {
               type='text'
               ref={inputRef}
               placeholder='新しいタスクを入力'
+              onCompositionStart={() => setIsComposing(true)} // 変換開始
+              onCompositionEnd={() => setIsComposing(false)} // 変換終了
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (e.key === 'Enter' && !isComposing) {
                   handleAddTask()
                 }
               }}
