@@ -82,7 +82,7 @@ function SortableTaskItem({ task, toggleTaskCompletion, updateTaskTitle, deleteT
       >
         <div className='flex w-full items-stretch gap-4 '>
           {/* この部分がドラッグ専用のハンドル */}
-          <span {...listeners} {...attributes} className='flex items-center'>
+          <span {...listeners} {...attributes} className='hidden items-center md:flex'>
             <FaBars />
           </span>
           <div className='flex w-full flex-col gap-2 md:flex-row md:items-center md:justify-between'>
@@ -160,7 +160,7 @@ const TaskList = ({ tasks, emptyMessage, toggleTaskCompletion, updateTaskTitle, 
   return (
     <>
       {tasks && tasks.length > 0 ? (
-        <ul className='border-t-2 pl-8 md:pl-0'>
+        <ul className='border-t-2'>
           {tasks.map((task) => (
             <SortableTaskItem
               key={task.id}
