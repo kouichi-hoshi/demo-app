@@ -1,4 +1,4 @@
-# Demo App - Stella Dev
+# Demo App - Stella D
 
 Next.jsとFirebaseで構築した学習用ToDoアプリです。Googleアカウントでログインするとタスク機能が有効になり、ドラッグ&ドロップで順序変更できるリッチなToDo管理を体験できます。
 
